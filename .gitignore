@@ -1,0 +1,9 @@
+# private working notes, exploratory work, and the even-split scenario kept off the public repo
+private/
+output/scenario/
+# R session files
+.Rhistory
+.RData
+.Rproj.user/
+renv/library/
+renv/staging/

@@ -1,0 +1,136 @@
+level,name,school,status,year,total,under18,pct_under18,zone_area_sqmi
+District,Poudre School District R-1,PSD,district,2000,158166,35625,22.5,1890.6727658267703
+District,Poudre School District R-1,PSD,district,2010,184601,37620,20.4,1890.6727658267703
+District,Poudre School District R-1,PSD,district,2020,220985,42519,19.2,1890.6727658267703
+ES,Bacon Elementary,Bacon,boundary_change,2000,167,63,37.7,3.371223458419223
+ES,Bacon Elementary,Bacon,boundary_change,2010,4118,1385,33.6,3.371223458419223
+ES,Bacon Elementary,Bacon,boundary_change,2020,6052,1855,30.7,3.371223458419223
+ES,Bamford Elementary,Bamford,receiving,2000,2609,745,28.6,10.56702505835913
+ES,Bamford Elementary,Bamford,receiving,2010,6239,1700,27.2,10.56702505835913
+ES,Bamford Elementary,Bamford,receiving,2020,6738,1491,22.1,10.56702505835913
+ES,Bauder Elementary,Bauder,receiving,2000,13621,2629,19.3,4.5118869861883555
+ES,Bauder Elementary,Bauder,receiving,2010,13846,2137,15.4,4.5118869861883555
+ES,Bauder Elementary,Bauder,receiving,2020,14295,2305,16.1,4.5118869861883555
+ES,Beattie Elementary,Beattie,closing,2000,6476,1669,25.8,1.0354474437925925
+ES,Beattie Elementary,Beattie,closing,2010,6670,1325,19.9,1.0354474437925925
+ES,Beattie Elementary,Beattie,closing,2020,6854,1348,19.7,1.0354474437925925
+ES,Bennett Elementary,Bennett,receiving,2000,12342,1972,16,2.891593231390635
+ES,Bennett Elementary,Bennett,receiving,2010,12787,1416,11.1,2.891593231390635
+ES,Bennett Elementary,Bennett,receiving,2020,14118,1646,11.7,2.891593231390635
+ES,Bethke Elementary,Bethke,no_change,2000,33,7,21.2,1.9574874494144776
+ES,Bethke Elementary,Bethke,no_change,2010,345,146,42.3,1.9574874494144776
+ES,Bethke Elementary,Bethke,no_change,2020,3985,1577,39.6,1.9574874494144776
+ES,Cache La Poudre Elementary,Cache La Poudre,receiving,2000,7529,1778,23.6,429.2662190378619
+ES,Cache La Poudre Elementary,Cache La Poudre,receiving,2010,8081,1569,19.4,429.2662190378619
+ES,Cache La Poudre Elementary,Cache La Poudre,receiving,2020,8042,1362,16.9,429.2662190378619
+ES,Dunn Elementary,Dunn,receiving,2000,12184,904,7.4,1.7343091813887137
+ES,Dunn Elementary,Dunn,receiving,2010,12322,723,5.9,1.7343091813887137
+ES,Dunn Elementary,Dunn,receiving,2020,15079,767,5.1,1.7343091813887137
+ES,Eyestone Elementary,Eyestone,no_change,2000,4058,1113,27.4,277.5887911066457
+ES,Eyestone Elementary,Eyestone,no_change,2010,7252,1947,26.8,277.5887911066457
+ES,Eyestone Elementary,Eyestone,no_change,2020,10466,2785,26.6,277.5887911066457
+ES,Irish Elementary,Irish,closing,2000,6185,1547,25,9.520022062021125
+ES,Irish Elementary,Irish,closing,2010,5999,1345,22.4,9.520022062021125
+ES,Irish Elementary,Irish,closing,2020,6181,1262,20.4,9.520022062021125
+ES,Johnson Elementary,Johnson,closing,2000,4394,1370,31.2,1.3278596013403763
+ES,Johnson Elementary,Johnson,closing,2010,5373,1493,27.8,1.3278596013403763
+ES,Johnson Elementary,Johnson,closing,2020,5618,1294,23,1.3278596013403763
+ES,Kruse Elementary,Kruse,no_change,2000,7971,2105,26.4,3.280880321577072
+ES,Kruse Elementary,Kruse,no_change,2010,9505,2130,22.4,3.280880321577072
+ES,Kruse Elementary,Kruse,no_change,2020,9891,1876,19,3.280880321577072
+ES,Laurel Elementary,Laurel,no_change,2000,7869,1228,15.6,6.165132626961528
+ES,Laurel Elementary,Laurel,no_change,2010,9176,1614,17.6,6.165132626961528
+ES,Laurel Elementary,Laurel,no_change,2020,12269,1972,16.1,6.165132626961528
+ES,Linton Elementary,Linton,receiving,2000,4876,1677,34.4,2.4182400116276668
+ES,Linton Elementary,Linton,receiving,2010,5463,1699,31.1,2.4182400116276668
+ES,Linton Elementary,Linton,receiving,2020,5893,1570,26.6,2.4182400116276668
+ES,Livermore Elementary,Livermore,closing,2000,1106,227,20.5,350.3582576017579
+ES,Livermore Elementary,Livermore,closing,2010,1408,218,15.5,350.3582576017579
+ES,Livermore Elementary,Livermore,closing,2020,1564,238,15.2,350.3582576017579
+ES,Lopez Elementary,Lopez,receiving,2000,5736,1679,29.3,1.4870241172787642
+ES,Lopez Elementary,Lopez,receiving,2010,5881,1423,24.2,1.4870241172787642
+ES,Lopez Elementary,Lopez,receiving,2020,6150,1379,22.4,1.4870241172787642
+ES,McGraw Elementary,McGraw,receiving,2000,5866,1849,31.5,19.387104138178792
+ES,McGraw Elementary,McGraw,receiving,2010,5779,1375,23.8,19.387104138178792
+ES,McGraw Elementary,McGraw,receiving,2020,6042,1236,20.5,19.387104138178792
+ES,O'Dea Elementary,O'Dea,no_change,2000,10603,1802,17,2.3117419222184483
+ES,O'Dea Elementary,O'Dea,no_change,2010,9958,1517,15.2,2.3117419222184483
+ES,O'Dea Elementary,O'Dea,no_change,2020,11637,1793,15.4,2.3117419222184483
+ES,Olander Elementary,Olander,receiving,2000,4776,1436,30.1,1.9175946355260793
+ES,Olander Elementary,Olander,receiving,2010,4699,1184,25.2,1.9175946355260793
+ES,Olander Elementary,Olander,receiving,2020,4679,1096,23.4,1.9175946355260793
+ES,Putnam Elementary,Putnam,closing,2000,7756,1661,21.4,2.460177336875111
+ES,Putnam Elementary,Putnam,closing,2010,7358,1506,20.5,2.460177336875111
+ES,Putnam Elementary,Putnam,closing,2020,8405,1452,17.3,2.460177336875111
+ES,Red Feather Elementary,Red Feather,closing,2000,1320,186,14.1,546.6902652045833
+ES,Red Feather Elementary,Red Feather,closing,2010,1402,143,10.2,546.6902652045833
+ES,Red Feather Elementary,Red Feather,closing,2020,1692,178,10.5,546.6902652045833
+ES,Rice Elementary,Rice,no_change,2000,2012,626,31.1,9.490331649044283
+ES,Rice Elementary,Rice,no_change,2010,2922,899,30.8,9.490331649044283
+ES,Rice Elementary,Rice,no_change,2020,4675,1322,28.3,9.490331649044283
+ES,Riffenburgh Elementary,Riffenburgh,no_change,2000,7523,1588,21.1,7.634952410868571
+ES,Riffenburgh Elementary,Riffenburgh,no_change,2010,9504,1690,17.8,7.634952410868571
+ES,Riffenburgh Elementary,Riffenburgh,no_change,2020,13711,2554,18.6,7.634952410868571
+ES,Shepardson Elementary,Shepardson,no_change,2000,5926,1682,28.4,1.7252932479936398
+ES,Shepardson Elementary,Shepardson,no_change,2010,6075,1440,23.7,1.7252932479936398
+ES,Shepardson Elementary,Shepardson,no_change,2020,6184,1281,20.7,1.7252932479936398
+ES,Stove Prairie Elementary,Stove Prairie,closing,2000,693,147,21.2,153.22421331025447
+ES,Stove Prairie Elementary,Stove Prairie,closing,2010,752,120,16,153.22421331025447
+ES,Stove Prairie Elementary,Stove Prairie,closing,2020,664,99,14.9,153.22421331025447
+ES,Tavelli Elementary,Tavelli,receiving,2000,4888,1256,25.7,7.558400682235318
+ES,Tavelli Elementary,Tavelli,receiving,2010,6469,1556,24.1,7.558400682235318
+ES,Tavelli Elementary,Tavelli,receiving,2020,8440,1855,22,7.558400682235318
+ES,Timnath Elementary,Timnath,closing,2000,2801,757,27,23.964155989602432
+ES,Timnath Elementary,Timnath,closing,2010,3804,836,22,23.964155989602432
+ES,Timnath Elementary,Timnath,closing,2020,6599,1530,23.2,23.964155989602432
+ES,Werner Elementary,Werner,no_change,2000,6750,1900,28.1,3.5441464888099232
+ES,Werner Elementary,Werner,no_change,2010,8007,1803,22.5,3.5441464888099232
+ES,Werner Elementary,Werner,no_change,2020,8822,1639,18.6,3.5441464888099232
+ES,Zach Elementary,Zach,no_change,2000,97,22,22.7,3.7034795138994223
+ES,Zach Elementary,Zach,no_change,2010,3408,1282,37.6,3.7034795138994223
+ES,Zach Elementary,Zach,no_change,2020,6237,1758,28.2,3.7034795138994223
+HS,Fort Collins HS,Fort Collins,no_change,2000,43763,9780,22.3,23.61828531301463
+HS,Fort Collins HS,Fort Collins,no_change,2010,48588,9811,20.2,23.61828531301463
+HS,Fort Collins HS,Fort Collins,no_change,2020,58649,10761,18.3,23.61828531301463
+HS,Fossil Ridge HS,Fossil Ridge,no_change,2000,11091,3201,28.9,21.90177202013171
+HS,Fossil Ridge HS,Fossil Ridge,no_change,2010,23766,6774,28.5,21.90177202013171
+HS,Fossil Ridge HS,Fossil Ridge,no_change,2020,30160,7359,24.4,21.90177202013171
+HS,Poudre HS,Poudre,no_change,2000,44301,7805,17.6,1494.3146697862653
+HS,Poudre HS,Poudre,no_change,2010,46139,7161,15.5,1494.3146697862653
+HS,Poudre HS,Poudre,no_change,2020,51165,7233,14.1,1494.3146697862653
+HS,Rocky Mountain HS,Rocky Mountain,no_change,2000,49090,12065,24.6,32.010045427783965
+HS,Rocky Mountain HS,Rocky Mountain,no_change,2010,50735,9838,19.4,32.010045427783965
+HS,Rocky Mountain HS,Rocky Mountain,no_change,2020,54304,9754,18,32.010045427783965
+HS,Timnath Middle High School,Timnath Middle-High School,no_change,2000,2834,764,27,25.92169699655964
+HS,Timnath Middle High School,Timnath Middle-High School,no_change,2010,4149,982,23.7,25.92169699655964
+HS,Timnath Middle High School,Timnath Middle-High School,no_change,2020,10584,3107,29.4,25.92169699655964
+HS,Wellington Middle High School,Wellington Middle-High School,no_change,2000,7086,2010,28.4,293.3244550733163
+HS,Wellington Middle High School,Wellington Middle-High School,no_change,2010,11221,3053,27.2,293.3244550733163
+HS,Wellington Middle High School,Wellington Middle-High School,no_change,2020,16118,4305,26.7,293.3244550733163
+MS,Blevins Middle,Blevins,closing,2000,31557,6746,21.4,9.60626501571137
+MS,Blevins Middle,Blevins,closing,2010,32261,5196,16.1,9.60626501571137
+MS,Blevins Middle,Blevins,closing,2020,34942,5514,15.8,9.60626501571137
+MS,Boltz Middle,Boltz,no_change,2000,20446,5231,25.6,6.9182490780320345
+MS,Boltz Middle,Boltz,no_change,2010,21411,4804,22.4,6.9182490780320345
+MS,Boltz Middle,Boltz,no_change,2020,23043,4527,19.6,6.9182490780320345
+MS,Cache La Poudre Middle,Cache La Poudre,no_change,2000,11367,2516,22.1,1475.5370699618336
+MS,Cache La Poudre Middle,Cache La Poudre,no_change,2010,12223,2188,17.9,1475.5370699618336
+MS,Cache La Poudre Middle,Cache La Poudre,no_change,2020,12698,2028,16,1475.5370699618336
+MS,Lesher Middle,Lesher,no_change,2000,20901,3812,18.2,11.15869669506809
+MS,Lesher Middle,Lesher,no_change,2010,22969,3733,16.3,11.15869669506809
+MS,Lesher Middle,Lesher,no_change,2020,28125,4616,16.4,11.15869669506809
+MS,Lincoln Middle,Lincoln,receiving,2000,35350,6025,17,24.319148677628146
+MS,Lincoln Middle,Lincoln,receiving,2010,38124,6247,16.4,24.319148677628146
+MS,Lincoln Middle,Lincoln,receiving,2020,45948,6823,14.8,24.319148677628146
+MS,Preston Middle,Preston,no_change,2000,11092,3201,28.9,21.904013143260666
+MS,Preston Middle,Preston,no_change,2010,23768,6775,28.5,21.904013143260666
+MS,Preston Middle,Preston,no_change,2020,30162,7359,24.4,21.904013143260666
+MS,Timnath Middle High School,Timnath Middle-High School,no_change,2000,2834,764,27,25.986655940481633
+MS,Timnath Middle High School,Timnath Middle-High School,no_change,2010,4149,982,23.7,25.986655940481633
+MS,Timnath Middle High School,Timnath Middle-High School,no_change,2020,10586,3108,29.4,25.986655940481633
+MS,Webber Middle,Webber,receiving,2000,17533,5319,30.3,22.40378042316044
+MS,Webber Middle,Webber,receiving,2010,18474,4643,25.1,22.40378042316044
+MS,Webber Middle,Webber,receiving,2020,19362,4239,21.9,22.40378042316044
+MS,Wellington Middle High School,Wellington Middle-High School,no_change,2000,7086,2010,28.4,293.3244550672061
+MS,Wellington Middle High School,Wellington Middle-High School,no_change,2010,11221,3053,27.2,293.3244550672061
+MS,Wellington Middle High School,Wellington Middle-High School,no_change,2020,16118,4305,26.7,293.3244550672061

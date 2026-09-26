@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PSD Closure Maps</title>
+<meta name="description" content="Two maps of Poudre School District's 2027-28 closure recommendation: the district today, and what the recommendation changes, with the district's own reasoning and the limits of the data.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Poudre School District's closure recommendation, on the map">
+<meta property="og:description" content="Two interactive maps of the 2027-28 recommendation: attendance zones, schools, census trends, and the district's own stated reasons, with the limits of the data. Independent, from public sources.">
+<meta property="og:image" content="{{ og_image }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Map of Poudre School District elementary zones recommended to close and to receive students">
+<meta property="og:url" content="{{ site_url }}">
+<meta name="twitter:card" content="summary_large_image">
+{{ headContent() }}
+<style>
+  :root {
+    color-scheme: light;
+    --surface: #fcfcfb;
+    --surface-2: #f3f2ee;
+    --rule: #e1e0d9;
+    --ink: #0b0b0b;
+    --ink-2: #52514e;
+    --ink-3: #6f6e69;
+    --accent: #2a78d6;
+    --es: #2a78d6; --ms: #eb6834; --hs: #1baf7a; --other: #898781;
+    --closing: #52514e; --receiving: #2a78d6; --consolidating: #1baf7a; --bchange: #eda100;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--surface); color: var(--ink);
+         font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 64px; }
+  .prose { max-width: 720px; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1.2; margin: 8px 0 8px; letter-spacing: -0.01em; }
+  h2 { font-size: 1.45rem; margin: 48px 0 8px; line-height: 1.25; }
+  h3 { font-size: 1.08rem; margin: 28px 0 6px; }
+  p { margin: 0 0 12px; }
+  a { color: #1c5cab; }
+  .meta { color: var(--ink-3); font-size: 0.9rem; margin-bottom: 20px; }
+  .lede { font-size: 1.08rem; color: var(--ink-2); }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 24px 0 8px; }
+  .tile { background: var(--surface-2); border-radius: 8px; padding: 14px 16px; }
+  .tile b { display: block; font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .tile span { color: var(--ink-2); font-size: 0.9rem; }
+  .mapwrap { max-width: 920px; margin: 16px auto 8px; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+  .caption { max-width: 920px; margin-left: auto !important; margin-right: auto !important; }
+  .mapwrap .leaflet-container { height: min(72vh, 640px) !important; background: #e8e8e4; }
+  .caption { color: var(--ink-3); font-size: 0.85rem; margin: 4px 0 20px; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 8px 32px; }
+  ul.tight { padding-left: 20px; margin: 0 0 12px; } ul.tight li { margin-bottom: 6px; }
+  .note { background: var(--surface-2); border-left: 3px solid var(--rule); padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 12px 0; color: var(--ink-2); font-size: 0.95rem; }
+  .tablewrap { overflow-x: auto; margin: 8px 0 16px; }
+  table.data { border-collapse: collapse; width: 100%; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+  table.data th, table.data td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  table.data th { font-weight: 600; color: var(--ink-2); font-size: 0.82rem; }
+  table.data td.num, table.data th.num { text-align: right; }
+  .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; }
+  dl.defs dt { font-weight: 600; margin-top: 10px; } dl.defs dd { margin: 2px 0 0; color: var(--ink-2); }
+  .hint { display: flex; gap: 14px; align-items: center; background: var(--surface-2); border-radius: 8px; padding: 12px 14px; margin: 14px 0 4px; max-width: 720px; }
+  .hint .mock { position: relative; flex: 0 0 150px; height: 78px; border-radius: 6px; background: #e8e8e4;
+                background-image: linear-gradient(90deg, transparent 48%, #d6d5cf 48%, #d6d5cf 52%, transparent 52%), linear-gradient(0deg, transparent 58%, #d6d5cf 58%, #d6d5cf 61%, transparent 61%); }
+  .hint .mock .btn { position: absolute; top: 8px; right: 8px; width: 40px; height: 40px; background-color: #fff; border: 2px solid rgba(0,0,0,.2); border-radius: 5px; background-position: center; }
+  .hint .mock .ring { position: absolute; top: 2px; right: 2px; width: 52px; height: 52px; border: 2px dashed #1c5cab; border-radius: 9px; }
+  .hint p { margin: 0; font-size: 0.93rem; color: var(--ink-2); }
+  footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--rule); color: var(--ink-3); font-size: 0.85rem; }
+  /* map pop-ups and controls */
+  .pp { font: 13px/1.4 system-ui, sans-serif; max-width: 330px; color: #0b0b0b; }
+  .pp h4 { margin: 0 0 2px; font-size: 15px; }
+  .pp .sub { color: #52514e; margin-bottom: 6px; }
+  .pp .st { font-weight: 600; margin-bottom: 4px; }
+  .pp blockquote { margin: 8px 0; padding: 6px 10px; border-left: 3px solid #c3c2b7; background: #f3f2ee; color: #2d2d2b; font-size: 12.5px; }
+  .pp .cite { font-size: 11.5px; color: #52514e; margin-top: -4px; margin-bottom: 6px; }
+  .pp table { border-collapse: collapse; width: 100%; font-size: 12px; margin-top: 6px; }
+  .pp th, .pp td { padding: 2px 6px 2px 0; border-bottom: 1px solid #e1e0d9; text-align: right; }
+  .pp th:first-child, .pp td:first-child { text-align: left; }
+  .pp .fine { color: #6f6e69; font-size: 11px; margin-top: 6px; }
+  .legend-box { background: rgba(252,252,251,.95); padding: 8px 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,.2); font: 12px/1.5 system-ui, sans-serif; color: #0b0b0b; max-width: 230px; }
+  .legend-box b { display: block; margin-bottom: 2px; }
+  .legend-box .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid #fff; box-shadow: 0 0 0 1px #898781; margin-right: 6px; vertical-align: -1px; }
+  .legend-box .box { display: inline-block; width: 14px; height: 11px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+  .legend-box .ln { display: inline-block; width: 22px; border-top: 2px dashed #6f6e69; margin-right: 6px; vertical-align: 3px; }
+  .leaflet-control-layers { font: 12.5px system-ui, sans-serif; }
+  .leaflet-control-layers .lc-head { font-weight: 700; font-size: 12px; color: #0b0b0b; margin: 6px 0 2px; }
+  .leaflet-control-layers-list > div:first-child .lc-head:first-child { margin-top: 0; }
+  .leaflet-control-layers-base label, .leaflet-control-layers-overlays label { margin: 2px 0; }
+  .easy-button-button { font: 600 12px system-ui, sans-serif !important; width: auto !important; padding: 0 8px !important; }
+  @media (max-width: 640px) {
+    .legend-box { max-width: 170px; font-size: 11px; }
+    .mapwrap .leaflet-container { height: 70vh !important; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="prose">
+    <h1>Poudre School District's closure recommendation, on the map</h1>
+    <div class="meta">Last updated {{ updated }}. An independent look using public data. Not produced by or affiliated with Poudre School District.</div>
+    <p class="lede">On September 25, 2026, PSD's Comprehensive Planning Committee recommended closing nine schools and consolidating two, starting in the 2027-28 school year. The Board of Education will hear the recommendation on October 13 and vote on October 27 (<a href="https://www.psdschools.org/community/district-news-details/~board/poudre-school-district-news/post/psd-comprehensive-planning-committee-recommendation-released">district announcement</a>).</p>
+    <p>These maps are my attempt to see what the recommendation looks like on the ground. They are not an argument for or against it. The committee worked on this for seventeen months, according to the announcement, and its <a href="https://www.psdschools.org/fs/resource-manager/view/9c94a1cd-0de3-49b9-9ebb-f3f2128ec379">executive summary</a> weighs things a map cannot show, such as programming at small schools, staffing, safety, and building condition. Where the district gives a reason, the maps quote it directly and cite the page.</p>
+  </div>
+
+  <div class="tiles">
+    <div class="tile"><b>9</b><span>schools recommended to close</span></div>
+    <div class="tile"><b>2</b><span>schools to consolidate into one (Centennial and PCA)</span></div>
+    <div class="tile"><b>{{ n_receivers }}</b><span>schools named to receive students</span></div>
+    <div class="tile"><b>$7.9M</b><span>estimated operating savings a year (sum of the district's estimates)</span></div>
+  </div>
+  <div class="caption" style="max-width:none;margin:0 0 8px !important">School counts are from the district announcement; the savings figure adds the per-school estimates in the executive summary.</div>
+
+  <div class="prose">
+    <h2>1. The district today</h2>
+    <p>This map is for orientation. It shows PSD's current attendance zones, every school by level, and how the number of children living in each elementary zone changed across the 2000, 2010 and 2020 censuses. Use the layer menu in the top-right corner to switch between elementary, middle, and high school zones and to turn layers on or off.</p>
+  </div>
+  <figure class="hint" aria-label="Where to find the layer menu">
+    <div class="mock" aria-hidden="true"><span class="btn leaflet-control-layers-toggle"></span><span class="ring"></span></div>
+    <p><b>Look for this button in the top-right corner of each map.</b> Hover over it, or tap it on a phone, to open the layer menu. From there you can switch school district boundaries, show or hide school types, and choose a census comparison.</p>
+  </figure>
+  <div class="mapwrap">{{ map1 }}</div>
+  <div class="caption">Scroll to zoom, and click a zone or school for details. The buttons at top left jump to the whole of Poudre School District R-1 or to the Fort Collins city limits.</div>
+
+  <div class="cols">
+    <div>
+      <h3>How to read this map</h3>
+      <ul class="tight">
+        <li><b>Color shows school level.</b> Blue is elementary, orange is middle, and green is high school. Timnath and Wellington are middle-high campuses serving grades 6 to 12; they are green with an orange ring and appear under both middle and high schools.</li>
+        <li><b>Gray points are schools without a neighborhood zone.</b> Families apply or enroll directly, so no area on the map feeds them. The groupings follow the school types in PSD's school map layer. They include charter schools (Fort Collins Montessori, Liberty Common, Mountain Sage, and Ridgeview Classical), district choice schools built around a particular program (such as Harris Bilingual Immersion, Kinard, Polaris Expeditionary Learning, Traut, and PSD Global Academy), the alternative high schools Centennial and Poudre Community Academy, and early childhood centers such as Fullana.</li>
+        <li><b>Zone outlines</b> are the district's current neighborhood attendance boundaries. Only one level is shown at a time because the levels overlap.</li>
+        <li><b>The census layers</b> shade each elementary zone by the percentage change in residents under 18 between censuses: 2000 to 2020, 2000 to 2010, or 2010 to 2020. Brown means fewer children, teal means more, and pale gray means little change. One census layer shows at a time. Hover over a zone to see the counts behind its percentage.</li>
+        <li><b>District-wide, the child population grew more slowly than the adult population.</b> Residents under 18 rose about 19%, from roughly 35,600 in 2000 to 42,500 in 2020. Residents 18 and older rose about 46% over the same area and years, from roughly 122,500 to 178,500. As a result, children's share of the population fell from 22.5% to 19.2%.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What this map cannot tell you</h3>
+      <ul class="tight">
+        <li><b>Where children live is not where they go to school.</b> Families can choose schools outside their zone, and charter schools have no zones. School enrollment and zone population measure different things.</li>
+        <li><b>"Under 18" is broader than school age.</b> It includes toddlers and teenagers, so it is a rough guide to elementary demand, not a count of it.</li>
+        <li><b>School boundaries and census boundaries do not line up.</b> The Census Bureau reports population for its own small areas, called blocks, not for school attendance zones. So any census count for a school zone involves some estimation. This map uses an area-weighted method. Each block's population is assigned to the zones it touches in proportion to how much of the block's area falls in each zone. For example, a block with 40 residents that lies 75% in one zone and 25% in another adds 30 residents to the first and 10 to the second. This assumes people are spread evenly within a block. About 94% of populated blocks sit entirely inside one elementary zone, holding over 90% of residents, so only blocks on a zone's edge are split. Each census year uses its own block map, and 2020 counts also include small amounts of deliberate privacy noise added by the Census Bureau.</li>
+        <li><b>Large percentages usually mean a small starting point.</b> Areas that were mostly undeveloped in 2000 or 2010, such as the Bethke and Zach zones, had few children then, so even ordinary growth shows as hundreds or thousands of percent. The mountain zones have small populations, so a change of a few dozen children moves their percentage a lot.</li>
+        <li><b>Enrollment for 2000-01 comes from federal data.</b> Pop-ups show it from the National Center for Education Statistics with preschool removed; later years come from PSD. The two sources agree within 3% for 40 of 41 schools in 2010-11. In 2000, PSD's elementary schools served kindergarten through grade 6 and junior highs served grades 7 to 9, so elementary figures drop grade 6 to match today's K-5 schools. Middle and high schools show their 2000 grade span beside the number and are not directly comparable.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h2>2. What the recommendation changes</h2>
+    <p>This map focuses on the schools the recommendation affects. Closing zones are shaded dark gray and receiving zones blue. A dashed line runs from each closing school to each school named to receive its students. Click any school for the district's stated reason, quoted from its executive summary, alongside enrollment and capacity figures.</p>
+  </div>
+  <div class="mapwrap">{{ map2 }}</div>
+  <div class="caption">Switch between elementary and middle school changes in the top-right control. The two consolidating schools, Centennial and Poudre Community Academy, are alternative high schools without neighborhood zones. They appear as the largest points, with a dark ring.</div>
+
+  <div class="cols">
+    <div>
+      <h3>How to read this map</h3>
+      <ul class="tight">
+        <li><b>Dashed lines are not routes or final assignments.</b> Most closing zones will be split between two receivers, and the district has not yet published where the split falls. The board packet due to be posted October 6 may include it.</li>
+        <li><b>This page does not estimate how many students each receiver gains.</b> That depends on where each closing zone is divided, which the district has not yet published. The receiving-school table shows each school as it is today.</li>
+        <li><b>Capacity uses the district's working measure.</b> See "Capacity, in plain words" below.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What this map cannot tell you</h3>
+      <ul class="tight">
+        <li><b>Savings are only half of the ledger.</b> The executive summary estimates savings from lower day-to-day operating costs and from deferred maintenance that would no longer be needed. Carrying out the changes will also cost money, for example at receiving schools, for a site for the combined Centennial and PCA school, for added transportation, and for the transition itself. Those costs are not yet estimated, and realistic figures are not possible without more information from the district.</li>
+        <li><b>Bacon's boundary change is not drawn.</b> The district describes two small areas moving to Bacon from Bamford and Werner, identified by planning grid codes that are not published as map data.</li>
+        <li><b>Harris is optional.</b> A cohort of multilingual learners from Irish will be offered places at Harris Bilingual Immersion; other Irish students go to Cache La Poudre or Bauder (<a href="https://www.psdschools.org/community/district-news-details/~board/poudre-school-district-news/post/psd-comprehensive-planning-committee-recommendation-released">announcement</a>).</li>
+        <li><b>Enrollment counts differ slightly.</b> The executive summary appears to use a newer count than the 2024-25 figures here. In my comparison its utilization for Beattie, Irish, Johnson, and Putnam is 3 to 5 points lower.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h3>Schools recommended to close or consolidate</h3>
+    <p>Reasons, deferred maintenance, and page numbers come from the executive summary. Enrollment is PSD's 2024-25 count. Use of working capacity divides that enrollment by the district's working capacity (my calculation).</p>
+  </div>
+  <div class="tablewrap">{{ table_closing }}</div>
+
+  <div class="prose">
+    <h3>Schools named to receive students</h3>
+    <p>Each receiving school as it is today. Enrollment is PSD's 2024-25 count; working capacity and its use are my calculation from district data (see "Capacity, in plain words"). Harris, which takes only an optional cohort, is left out. How many students each school gains will depend on boundary splits the district has not yet published.</p>
+  </div>
+  <div class="tablewrap">{{ table_receiving }}</div>
+
+  <div class="prose">
+    <h3>District-wide context</h3>
+    <p>The district counts 10,539 open seats, based on working capacity and its average projected enrollment for 2025 to 2030 (<a href="https://www.psdschools.org/fs/resource-manager/view/a62d419e-f10a-420d-a695-bd52a678df80#page=20">slides, p. 20</a>). The rest of this paragraph is my calculation using the same method. With 2024-25 enrollment instead of projections, the figure is about 9,000. The closing buildings hold roughly 3,500 of those seats, about 40%. If every student from a closing school moves to another PSD school, district-wide use of working capacity rises from 73% to about 82%, however the zones are divided. Much of the remaining open space is at the high school level, which this recommendation does not change.</p>
+
+    <h3>Capacity, in plain words</h3>
+    <dl class="defs">
+      <dt>Working capacity (the district's "National Standard Capacity")</dt>
+      <dd>The number of students a building can hold while keeping space for programs such as early childhood and center-based special education. The district describes it as 80% of capacity (<a href="https://www.psdschools.org/fs/resource-manager/view/a62d419e-f10a-420d-a695-bd52a678df80#page=20">slides, p. 20</a>). In the district's boundary map data the ratio is 80% for elementary schools, 75% for middle schools, and 85% for high schools (my calculation).</dd>
+      <dt>Full capacity</dt>
+      <dd>The district's larger capacity figure, labeled "RIC". The slides say the number of open seats "would be higher (RIC) if we didn't choose to provide space for those specialized programs" (<a href="https://www.psdschools.org/fs/resource-manager/view/a62d419e-f10a-420d-a695-bd52a678df80#page=20">p. 20</a>). No school on this page exceeds full capacity after the closures.</dd>
+      <dt>A note on derived capacities</dt>
+      <dd>The executive summary quotes capacity for the closing schools. For other schools, I worked out capacity from the utilization percentages on the district's public boundary map layer. For a few schools, including Eyestone, Poudre High, Preston, and Boltz, those derived figures are well above the district's older capacity records, so treat single-school figures for them with care.</dd>
+    </dl>
+
+    <h2>Sources</h2>
+    <ul class="tight">
+      <li>PSD, <a href="https://www.psdschools.org/fs/resource-manager/view/9c94a1cd-0de3-49b9-9ebb-f3f2128ec379">Comprehensive Planning Committee executive summary</a> (September 25, 2026). Quoted reasons, deferred maintenance, and savings estimates, cited by page in each pop-up.</li>
+      <li>PSD, <a href="https://www.psdschools.org/fs/resource-manager/view/a62d419e-f10a-420d-a695-bd52a678df80">Comprehensive Planning by the Numbers</a> slides (September 2026). Open-seat count and method, and capacity definitions (p. 20).</li>
+      <li>PSD, <a href="https://www.psdschools.org/community/district-news-details/~board/poudre-school-district-news/post/psd-comprehensive-planning-committee-recommendation-released">recommendation announcement</a> (September 25, 2026). Closing and receiving schools, the Harris cohort, the seventeen-month timeline, and the meeting schedule.</li>
+      <li>PSD public ArcGIS services: <a href="https://services.arcgis.com/VBzywyYzcLrfMMGa/arcgis/rest/services/">Boundaries2022, Schools_PSD, and PSD_Boundary</a>. Attendance zones (edited June and July 2026), school locations and types, enrollment from 2005-06 to 2024-25, capacity percentages, and the district outline.</li>
+      <li>U.S. Census Bureau, <a href="https://www.census.gov/programs-surveys/decennial-census.html">decennial census</a>: 2000 and 2010 Summary File 1 and the 2020 redistricting data (P.L. 94-171), block-level counts of total and 18-and-over population for Larimer County, retrieved through the Census Bureau API. Under-18 is total minus 18 and over. Area-weighted into each zone by me.</li>
+      <li>National Center for Education Statistics, <a href="https://nces.ed.gov/ccd/">Common Core of Data</a>: 2000-01 and 2010-11 school enrollment, preschool and grade-6 counts, retrieved through the <a href="https://educationdata.urban.org/">Urban Institute Education Data Portal</a>.</li>
+      <li>U.S. Census Bureau, <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html">cartographic boundary file</a> for places, 2024: Fort Collins city limits, used for the zoom button.</li>
+    </ul>
+  </div>
+
+  <footer>
+    Built with R and Leaflet. Basemap: Esri World Gray Canvas (credits shown on each map). Page last rebuilt {{ updated }}. Figures are my own calculations from the sources above and may contain errors.{{ corrections }}
+  </footer>
+</main>
+</body>
+</html>

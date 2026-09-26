@@ -1,0 +1,22 @@
+scenario,level,n_schools,enrollment,ric,nsc,empty_ric_net,empty_nsc_net,empty_ric_gross,empty_nsc_gross,util_ric,util_nsc,n_under70_nsc,n_over95_nsc,n_over100_ric
+before,District (all included),47,24670,41899,33674,17229,9004,17229,9296,0.5888,0.7326,23,9,0
+before,District (district-method capacities only),44,23173,40285,32383,17112,9210,17112,9296,0.5752,0.7156,23,6,0
+before,ES,29,9663,17602,14081,7939,4418,7939,4418,0.549,0.6862,15,4,0
+before,MS,7,3805,7930,5948,4125,2143,4125,2143,0.4798,0.6397,5,1,0
+before,HS,4,6834,10658,9059,3824,2225,3824,2225,0.6412,0.7544,1,0,0
+before,MS/HS,2,2631,3391,2713,760,82,760,168,0.7759,0.9698,0,1,0
+before,Option,5,1737,2318,1873,581,136,581,342,0.7494,0.9274,2,3,0
+after_closures_only,District (all included),38,24670,37500,30213,12830,5543,,,0.6579,0.8165,,,
+after_closures_only,District (district-method capacities only),35,23173,35886,28922,12713,5749,,,0.6457,0.8012,,,
+after_A_consol_remove_Centennial,District (all included),37,24670,37109,29881,12439,5211,,,0.6648,0.8256,,,
+after_A_consol_remove_Centennial,District (district-method capacities only),34,23173,35495,28590,12322,5417,,,0.6529,0.8105,,,
+after_B_consol_remove_PCA,District (all included),37,24670,37187,29963,12517,5293,,,0.6634,0.8233,,,
+after_B_consol_remove_PCA,District (district-method capacities only),34,23173,35573,28672,12400,5499,,,0.6514,0.8082,,,
+before_2030_minus7.5pct,District (all included),47,22819.75,41899,33674,19079.25,10854.249999999998,,,0.5446,0.6777,,,
+before_2030_minus7.5pct,District (district-method capacities only),44,21435.025,40285,32383,18849.975,10947.974999999999,,,0.5321,0.6619,,,
+after_closures_only_2030,District (all included),38,22819.75,37500,30213,14680.249999999998,7393.249999999999,,,0.6085,0.7553,,,
+after_closures_only_2030,District (district-method capacities only),35,21435.025,35886,28922,14450.974999999999,7486.9749999999985,,,0.5973,0.7411,,,
+after_A_2030,District (all included),37,22819.75,37109,29881,14289.249999999998,7061.249999999999,,,0.6149,0.7637,,,
+after_A_2030,District (district-method capacities only),34,21435.025,35495,28590,14059.974999999999,7154.9749999999985,,,0.6039,0.7497,,,
+after_B_2030,District (all included),37,22819.75,37187,29963,14367.249999999998,7143.249999999999,,,0.6136,0.7616,,,
+after_B_2030,District (district-method capacities only),34,21435.025,35573,28672,14137.974999999999,7236.9749999999985,,,0.6026,0.7476,,,

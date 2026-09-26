@@ -1,0 +1,48 @@
+name,level,program,status,enroll_2024_25,ric_cap,nsc_cap,capacity_source,util_ric,util_nsc,empty_ric,empty_nsc,layer_ric_pct,layer_nsc_pct,layer_ricnc_pct,layer_fci,cpc_enroll,cpc_ric_cap,cpc_nsc_cap,legacy_capacity,legacy_capacity_main,legacy_capacity_with_mod
+Zach Elementary,ES,Core,no_change,492,615,492,derived: En_2024_25 / Boundaries2022 RIC%,0.8,1,123,0,80,100,56,24,,,,575,550,650
+Shepardson Elementary,ES,STEM,no_change,414,518,414,derived: En_2024_25 / Boundaries2022 RIC%,0.7992,1,104,0,80,100,64,24,,,,500,425,425
+Dunn Elementary,ES,IB,receiving,392,503,402,derived: En_2024_25 / Boundaries2022 RIC%,0.7793,0.9751,111,10,78,97,25,13,,,,400,375,425
+Timnath Elementary,ES,,closing,427,560,448,cpc_exec_summary,0.7625,0.9531,133,21,76,95,111,39,424,560,448,525,475,475
+Laurel Elementary,ES,,no_change,388,571,457,derived: En_2024_25 / Boundaries2022 RIC%,0.6795,0.849,183,69,68,85,96,11,,,,525,475,475
+Tavelli Elementary,ES,,receiving,494,737,590,derived: En_2024_25 / Boundaries2022 RIC%,0.6703,0.8373,243,96,67,84,67,22,,,,675,650,700
+O'Dea Elementary,ES,Core,no_change,398,603,482,derived: En_2024_25 / Boundaries2022 RIC%,0.66,0.8257,205,84,66,83,73,21,,,,475,400,500
+Riffenburgh Elementary,ES,IB,no_change,443,682,546,derived: En_2024_25 / Boundaries2022 RIC%,0.6496,0.8114,239,103,65,81,80,21,,,,500,450,600
+McGraw Elementary,ES,IB,receiving,349,554,443,derived: En_2024_25 / Boundaries2022 RIC%,0.63,0.7878,205,94,63,79,44,23,,,,525,500,500
+Bethke Elementary,ES,,no_change,512,813,650,derived: En_2024_25 / Boundaries2022 RIC%,0.6298,0.7877,301,138,63,79,56,29,,,,575,575,725
+Rice Elementary,ES,,no_change,401,657,526,derived: En_2024_25 / Boundaries2022 RIC%,0.6104,0.7624,256,125,61,76,64,27,,,,575,500,500
+Werner Elementary,ES,,no_change,358,587,470,derived: En_2024_25 / Boundaries2022 RIC%,0.6099,0.7617,229,112,61,76,62,21,,,,525,500,550
+Kruse Elementary,ES,,no_change,369,625,500,derived: En_2024_25 / Boundaries2022 RIC%,0.5904,0.738,256,131,59,74,74,24,,,,525,500,550
+Bacon Elementary,ES,,boundary_change,377,650,520,derived: En_2024_25 / Boundaries2022 RIC%,0.58,0.725,273,143,58,73,60,32,,,,575,500,500
+Bauder Elementary,ES,,receiving,401,757,606,derived: En_2024_25 / Boundaries2022 RIC%,0.5297,0.6617,356,205,53,67,68,24,,,,700,625,625
+Bennett Elementary,ES,IB,receiving,346,665,532,derived: En_2024_25 / Boundaries2022 RIC%,0.5203,0.6504,319,186,52,65,58,20,,,,550,500,500
+Olander Elementary,ES,,receiving,294,600,480,derived: En_2024_25 / Boundaries2022 RIC%,0.49,0.6125,306,186,49,61,45,23,,,,525,475,475
+Beattie Elementary,ES,,closing,243,500,400,cpc_exec_summary,0.486,0.6075,257,157,46,58,62,16,231,500,400,525,500,500
+Johnson Elementary,ES,,closing,303,625,500,cpc_exec_summary,0.4848,0.606,322,197,45,56,40,31,281,625,500,625,575,575
+Irish Elementary,ES,,closing,311,669,535,cpc_exec_summary,0.4649,0.5813,358,224,41,51,43,15,272,669,535,525,425,525
+Lopez Elementary,ES,,receiving,319,693,554,derived: En_2024_25 / Boundaries2022 RIC%,0.4603,0.5758,374,235,46,58,52,22,,,,625,550,550
+Cache La Poudre Elementary,ES,IB,receiving,267,593,474,derived: En_2024_25 / Boundaries2022 RIC%,0.4503,0.5633,326,207,45,56,,12,,,,525,475,475
+Linton Elementary,ES,,receiving,265,631,505,derived: En_2024_25 / Boundaries2022 RIC%,0.42,0.5248,366,240,42,53,64,24,,,,525,450,500
+Bamford Elementary,ES,,receiving,285,731,585,derived: En_2024_25 / Boundaries2022 RIC%,0.3899,0.4872,446,300,39,48,38,0,,,,,,
+Livermore Elementary,ES,,closing,36,100,80,cpc_exec_summary,0.36,0.45,64,44,37,46,38,46,37,100,80,100,100,100
+Putnam Elementary,ES,Science,closing,203,575,460,cpc_exec_summary,0.353,0.4413,372,257,30,38,51,31,174,575,460,550,475,475
+Eyestone Elementary,ES,,no_change,524,1588,1270,derived: En_2024_25 / Boundaries2022 RIC%,0.33,0.4126,1064,746,33,41,37,39,,,,700,650,650
+Stove Prairie Elementary,ES,,closing,30,100,80,cpc_exec_summary,0.3,0.375,70,50,21,26,16,15,21,100,80,100,100,100
+Red Feather Elementary,ES,,closing,22,100,80,cpc_exec_summary,0.22,0.275,78,58,20,25,37,20,20,100,80,100,75,75
+Rocky Mountain HS,HS,,no_change,1939,2693,2289,derived: En_2024_25 / Boundaries2022 RIC%,0.72,0.8471,754,350,72,84,77,12,,,,2053,2053,2053
+Fossil Ridge HS,HS,,no_change,1795,2601,2211,derived: En_2024_25 / Boundaries2022 RIC%,0.6901,0.8118,806,416,69,81,56,33,,,,1964,1964,1964
+Fort Collins HS,HS,,no_change,1786,2626,2232,derived: En_2024_25 / Boundaries2022 RIC%,0.6801,0.8002,840,446,68,80,80,30,,,,1734,1734,1734
+Poudre HS,HS,,no_change,1314,2738,2327,derived: En_2024_25 / Boundaries2022 RIC%,0.4799,0.5647,1424,1013,48,57,54,33,,,,1658,1658,1883
+Lesher Middle,MS,IB,no_change,765,1062,796,derived: En_2024_25 / Boundaries2022 RIC%,0.7203,0.9611,297,31,72,96,55,32,,,,792,762,762
+Webber Middle,MS,,receiving,729,1325,994,derived: En_2024_25 / Boundaries2022 RIC%,0.5502,0.7334,596,265,55,74,43,33,,,,984,924,974
+Boltz Middle,MS,,no_change,551,1148,861,derived: En_2024_25 / Boundaries2022 RIC%,0.48,0.64,597,310,48,64,53,39,,,,840,780,830
+Lincoln Middle,MS,IB,receiving,550,1196,897,derived: En_2024_25 / Boundaries2022 RIC%,0.4599,0.6132,646,347,46,61,72,32,,,,864,804,804
+Cache La Poudre Middle,MS,IB,no_change,280,609,457,derived: En_2024_25 / Boundaries2022 RIC%,0.4598,0.6127,329,177,46,61,39,16,,,,456,456,556
+Preston Middle,MS,,no_change,568,1420,1065,derived: En_2024_25 / Boundaries2022 RIC%,0.4,0.5333,852,497,40,54,69,26,,,,960,960,1110
+Blevins Middle,MS,,closing,362,1170,878,cpc_exec_summary,0.3094,0.4123,808,516,31,42,57,7,365,1170,878,840,840,840
+Timnath Middle High School,MS/HS,,no_change,1458,1715,1372,derived: En_2024_25 / Boundaries2022 RIC%,0.8501,1.0627,257,-86,85,106,88,0,,,,,,
+Wellington Middle High School,MS/HS,,no_change,1173,1676,1341,derived: En_2024_25 / Boundaries2022 RIC%,0.6999,0.8747,503,168,70,87,81,0,,,,,,
+Harris Elementary,Option,Bilingual,receiving,295,300,240,legacy Schools_PSD Capacity_1 (not RIC),0.9833,1.2292,5,-55,,,,,,,,375,300,300
+Traut Elementary,Option,Core,no_change,440,450,360,legacy Schools_PSD Capacity_1 (not RIC),0.9778,1.2222,10,-80,,,,,,,,500,450,450
+Kinard Middle,Option,Core,no_change,762,864,691,legacy Schools_PSD Capacity_1 (not RIC),0.8819,1.1027,102,-71,,,,,,,,864,864,864
+Poudre Community Academy,Option,,consolidating,127,313,250,cpc_exec_summary,0.4058,0.508,186,123,,,,,105,313,250,0,225,425
+Centennial HS,Option,,consolidating,113,391,332,cpc_exec_summary,0.289,0.3404,278,219,,,,,87,391,332,250,250,250
