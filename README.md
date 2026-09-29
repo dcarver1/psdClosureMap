@@ -193,7 +193,7 @@ widget JSON and breaks the maps.
 
 ## Corrections
 If you find an error in a figure, a quote, or the code, please open an issue on this repository with the page or file
-and what you expected. District figures are checked against the source PDFs on every build (`R/00b_check_sources.R`), so
+and what you expected, or comment on the post where you found the page. District figures are checked against the source PDFs on every build (`R/00b_check_sources.R`), so
 a quote or citation fix belongs in `data/raw/psd_cpc/district_rationale_excerpts.csv`.
 
 ## License and sources

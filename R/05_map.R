@@ -46,13 +46,21 @@ enr00 <- as_tibble(ccd00) %>% select(ncessch, school_name, enrollment, lo = lowe
 # ---- publishing settings (edit before hosting) ------------------------------------------
 # site_url: the page's final public address, e.g. "https://example.com/psd-maps/". Link previews on
 #   Facebook and LinkedIn need absolute URLs, so fill this in before sharing.
-# corrections_url: a form or issue tracker for corrections (leave "" to omit the line).
+# corrections_url: optional form or issue tracker for corrections. Left blank, the footer asks readers to comment
+#   where they found the page (the social posts), plus the repository's GitHub issues page once repo_url is set.
 site_url        <- ""
 corrections_url <- ""
 # repo_url: the public GitHub repository, linked in the footer as the home of the code and data ("" to omit).
 repo_url        <- ""
 og_image <- paste0(site_url, "psd_closures_preview.png")
-corrections_html <- if (nzchar(corrections_url)) sprintf(" Spot an error? <a href='%s'>Send a correction</a>.", corrections_url) else " Corrections are welcome."
+corrections_html <- if (nzchar(corrections_url)) {
+  sprintf(" Spot an error? <a href='%s'>Send a correction</a>.", corrections_url)
+} else if (nzchar(repo_url)) {
+  sprintf(" Corrections are welcome: comment where you found this page, or open an issue on the <a href='%s/issues'>GitHub issues page</a>.",
+          sub("/$", "", repo_url))
+} else {
+  " Corrections are welcome: comment where you found this page."
+}
 
 url_exec <- "https://www.psdschools.org/fs/resource-manager/view/9c94a1cd-0de3-49b9-9ebb-f3f2128ec379"
 # PSD's interactive planning dashboard (Power BI "publish to web"). It offers no data export and no
