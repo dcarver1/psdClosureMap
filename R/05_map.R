@@ -51,7 +51,7 @@ enr00 <- as_tibble(ccd00) %>% select(ncessch, school_name, enrollment, lo = lowe
 site_url        <- ""
 corrections_url <- ""
 # repo_url: the public GitHub repository, linked in the footer as the home of the code and data ("" to omit).
-repo_url        <- ""
+repo_url        <- "https://github.com/dcarver1/psdClosureMap"
 og_image <- paste0(site_url, "psd_closures_preview.png")
 corrections_html <- if (nzchar(corrections_url)) {
   sprintf(" Spot an error? <a href='%s'>Send a correction</a>.", corrections_url)
