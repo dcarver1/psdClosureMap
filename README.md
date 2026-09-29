@@ -138,9 +138,11 @@ at the top of `R/05_map.R` to drop the mention.
 **Navigation.** Zoom buttons go to Poudre School District R-1 and to the Fort Collins city limits (Census
 cartographic boundary file for places, 2024). Scroll-wheel zoom is on.
 
-**Publishing.** Set `site_url` (the page's public address, needed for link previews) and optionally
-`corrections_url` at the top of `R/05_map.R`, rebuild, and upload `psd_closures_map.html` together with
-`psd_closures_preview.png` (the 1200 x 630 link-preview image from `R/06_preview_image.R`).
+**Publishing.** The live page is served by GitHub Pages. `.github/workflows/pages.yml` runs on every push to `main`
+that changes the built page or preview image, and publishes `psd_closures_map.html` as the site's `index.html` next to
+`psd_closures_preview.png`. The workflow does not run R; rebuild locally with `Rscript run_all.R` and commit the
+outputs. `site_url` in `R/05_map.R` must match the published address (it is needed for link previews). To host the
+page elsewhere instead, upload those two files side by side and set `site_url` to that address.
 
 **Build.** `R/05_map.R` fills `R/map_page_template.html` with `htmltools::htmlTemplate`, saves it, and inlines every
 script, stylesheet and image itself. pandoc's `--self-contained` is not used because it reflows text inside the

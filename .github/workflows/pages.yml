@@ -1,0 +1,44 @@
+# Publish the map page to GitHub Pages whenever the built page or preview image changes on main.
+# The page is built locally (Rscript run_all.R) and committed; this workflow only copies it into place:
+#   output/psd_closures_map.html  -> site root as index.html
+#   output/psd_closures_preview.png -> site root (the link-preview image named in the page's og:image tag)
+# Repository settings: Pages > Build and deployment > Source = "GitHub Actions"; custom domain set there too.
+name: Publish map page
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "output/psd_closures_map.html"
+      - "output/psd_closures_preview.png"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble the site
+        run: |
+          mkdir -p _site
+          cp output/psd_closures_map.html _site/index.html
+          cp output/psd_closures_preview.png _site/psd_closures_preview.png
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
