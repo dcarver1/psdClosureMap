@@ -7,24 +7,43 @@ limits of the data. The result is one self-contained web page, `output/psd_closu
 This is a personal look at the questions I would want answered if I were making this decision. It is not an
 argument for or against the recommendation. The committee and the board are weighing things this data cannot
 show, such as programming at small schools, staffing, safety, and building condition. The project is independent
-and not affiliated with Poudre School District.
+and not affiliated with Poudre School District. It is a personal project, pursued in my own time, and I currently have
+a child enrolled in PSD.
 
 ## Rebuild the page
-Requires R (4.6.1 used) and the packages recorded in `renv.lock`.
+Requires R (4.6.1 used) and the packages recorded in `renv.lock`. The repository is an [renv](https://rstudio.github.io/renv/)
+project: opening R in this folder (or running `Rscript` from it) picks up `.Rprofile`, which bootstraps renv and points
+R at a project-local library.
+
+**System libraries.** `sf`, `s2`, `units` and `ragg` compile against GDAL, GEOS, PROJ, udunits2, freetype, harfbuzz and
+fribidi. On Debian/Ubuntu: `apt install libgdal-dev libgeos-dev libproj-dev libudunits2-dev libfreetype6-dev
+libharfbuzz-dev libfribidi-dev libpng-dev libjpeg-dev libtiff5-dev`. On macOS with Homebrew: `brew install gdal geos proj
+udunits harfbuzz fribidi`. On Windows, CRAN binaries need nothing extra.
 
 ```r
-install.packages("renv")
-renv::restore()          # installs the recorded package versions
+# in R, started from the project folder
+renv::restore()          # installs the recorded package versions into renv/library
 ```
 
 ```sh
 Rscript run_all.R        # about 20 seconds; writes output/psd_closures_map.html and the preview image
 ```
 
-Everything needed is committed: raw inputs in `data/raw`, and the census blocks in `data/processed`. No download or
-API key is needed. To re-download every raw input from its public source first, run
-`REFRESH=true Rscript R/00a_fetch_raw.R`. A Census API key (`CENSUS_API_KEY`) is only needed if the cached census
-blocks are deleted.
+`run_all.R` can also be `source()`d from an R session in any working directory; it changes to its own folder for the
+run. For the pinned package versions to be used, that session must have been started in the project folder (for
+example by opening `psdClosure.Rproj`), because that is what loads `.Rprofile`.
+
+Everything needed is committed: raw inputs in `data/raw`, and the cached census blocks and city limits in
+`data/processed`. A normal build makes no network calls and needs no API key. The derived layers in `data/processed`
+(school points, zones, district outline, enrollment table) are rebuilt by `R/01_school_points.R` and `R/02_boundaries.R`
+on every run and are not committed.
+
+To re-download every raw input from its public source first, run `REFRESH=true Rscript R/00a_fetch_raw.R`. That path
+needs internet access, the `pdftools` package (or the `mutool` command) to extract page text from the district PDFs, and
+`tigris` to fetch the city limits. A Census API key (`CENSUS_API_KEY`) is only needed if the cached census blocks are
+deleted.
+
+`renv.lock` records only the packages the scripts load (listed in `DESCRIPTION`) and their dependencies.
 
 Every build first runs `R/00b_check_sources.R`, which checks each district quote, figure and page citation on the page
 against the text of the district's PDFs and stops the build if anything no longer matches.
@@ -33,6 +52,8 @@ against the text of the district's PDFs and stops the build if anything no longe
 | path | what |
 |---|---|
 | `run_all.R` | Runs the pipeline in order. |
+| `DESCRIPTION`, `renv.lock`, `renv/`, `.Rprofile` | Package list and pinned versions (renv). |
+| `psdClosure.Rproj` | RStudio project file; opening it starts R in the project folder with renv active. |
 | `R/00_setup.R` | Packages, paths, the closure plan table (`closure_plan`), and the school-name key used to join sources. |
 | `R/00a_fetch_raw.R` | Downloads any missing raw input from its public source (`REFRESH=true` to re-download all). |
 | `R/00b_check_sources.R` | Verifies district quotes and page citations against the PDFs. |
@@ -40,10 +61,10 @@ against the text of the district's PDFs and stops the build if anything no longe
 | `R/02_boundaries.R` | Current attendance zones and district outline, with recommendation status. |
 | `R/03a_census_fetch.R`, `R/03b_census_interpolate.R` | Census blocks 2000/2010/2020 and area-weighted counts per zone. |
 | `R/04_utilization.R` | Working and full capacity, utilization and open seats. |
-| `R/05_map.R`, `R/map_page_template.html` | The two-map web page. Publishing settings (`site_url`, `corrections_url`) are at the top of `05_map.R`. |
-| `R/06_preview_image.R` | 1200 x 630 link-preview image. |
+| `R/05_map.R`, `R/map_page_template.html` | The two-map web page. Publishing settings (`site_url`, `corrections_url`, `url_dashboard`) are in a block near the top of `05_map.R`. |
+| `R/06_preview_image.R` | 1200 x 630 link-preview image: affected elementary zones, one point per zone, arrows from each closing school to its named receivers, mountain schools in frame. |
 | `data/raw/` | Raw inputs as downloaded, with `SOURCES.md`. |
-| `data/processed/` | Cleaned layers and cached census blocks. |
+| `data/processed/` | Cached downloads (census blocks, city limits). Derived layers are rebuilt here and not committed. |
 | `output/` | The page, its preview image, and the census and utilization tables behind it. |
 
 ## Outputs (`output/`)
@@ -94,7 +115,7 @@ Census Bureau's differential-privacy noise; zone totals are reliable, single blo
   checked against the cited pages on 2026-09-26). Beattie/Johnson and Irish/Putnam savings are reported as pairs.
 - The page shows receiving schools as they are today and gives no estimate of how many students each gains,
   because that depends on boundary splits the district has not published (decision 2026-09-26; revisit after
-  the Oct 6 packet). An even-split scenario remains in `output/utilization_by_school.csv` for review only.
+  the Oct 6 packet). An even-split scenario is written to `output/scenario/` (not committed) for review only.
   Harris, which takes only an optional cohort of multilingual learners from Irish, is left out of the receiving table.
 - District-wide use of working capacity (73% to about 82%) is shown because it does not depend on the split,
   only on every student from a closing school moving to another PSD school.
@@ -108,6 +129,11 @@ the federal 2010-11 counts match PSD's within 3% for 40 of 41 schools. In 2000 P
 junior highs 7-9, so elementary figures also drop grade 6 to match today's K-5 schools; middle and high schools show
 their 2000 grade span and are not directly comparable. The mountain schools changed NCES ids and are matched by
 name. Wellington Middle-High's 2000-01 figure is its predecessor, Wellington Junior High (grades 7-9).
+
+**District dashboard.** PSD also publishes an interactive planning dashboard (Power BI, published to the web). It is
+linked once above the closing-schools table and in Sources as a further reference for enrollment change over time. It
+offers no data download and no per-school link, so no figure on the page is taken from it. Set `url_dashboard` to `""`
+at the top of `R/05_map.R` to drop the mention.
 
 **Navigation.** Zoom buttons go to Poudre School District R-1 and to the Fort Collins city limits (Census
 cartographic boundary file for places, 2024). Scroll-wheel zoom is on.
@@ -159,10 +185,24 @@ widget JSON and breaks the maps.
   RIC percentage. For some schools these run well above the older `Schools_PSD` capacity field: Eyestone 1,588 vs 700,
   Poudre HS 2,738 vs 1,883, Preston 1,420 vs 1,110, Boltz 1,148 vs 840. The layer may use a different enrollment count
   for those schools. Check before quoting any single school's figures.
-- The executive summary appears to use a newer enrollment count than the 2024-25 figures here; its utilization for
-  Beattie, Irish, Johnson and Putnam runs 3 to 5 points lower than mine.
+- Harris, Traut and Kinard have no RIC percentage on the boundary layer, so their capacity comes from the older
+  `Schools_PSD` capacity field (`Capacity_1`, which includes modular classrooms). Their pop-ups say so.
+- The executive summary counts 12 to 39 fewer students at Beattie, Irish, Johnson and Putnam than PSD's 2024-25
+  figures used here, so its use of working capacity for those schools runs 3 to 7 points lower than mine.
 - The page needs internet access for the Esri basemap.
 
+## Corrections
+If you find an error in a figure, a quote, or the code, please open an issue on this repository with the page or file
+and what you expected. District figures are checked against the source PDFs on every build (`R/00b_check_sources.R`), so
+a quote or citation fix belongs in `data/raw/psd_cpc/district_rationale_excerpts.csv`.
+
 ## License and sources
-Code is MIT licensed (`LICENSE`). Raw data are copies of public records and public data and remain under their
-sources' terms; see `data/raw/SOURCES.md` for every source, URL and download date.
+- **Code** (the R scripts, `run_all.R`, and the page template's markup and styles) is MIT licensed; see `LICENSE`.
+- **My writing and derived outputs** (the text of the page and this README, the maps as composed on the page, the tables
+  in `output/`, and the preview image) are licensed under
+  [Creative Commons Attribution 4.0 (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). You may reuse and adapt
+  them for any purpose, with credit to Dan Carver and a link to this repository or the page.
+- **Not covered by either license:** the district's quoted words and documents, the raw data in `data/raw` (copies of
+  public records and public data that remain under their sources' terms; see `data/raw/SOURCES.md` for every source,
+  URL and download date), the Esri basemap tiles, and the JavaScript libraries bundled into the page, which keep their
+  own licenses.

@@ -26,7 +26,7 @@ schools <- psd_pts %>%
     utilization = Utilizatio,
     across(starts_with("En_"), ~ .x)
   ) %>%
-  # Liberty Common appears twice with one empty stub row; drop rows that have no type
+  # Liberty Common Elementary appears twice, once as a stub row with no grade span; keep the full row
   distinct(name, school_type, .keep_all = TRUE) %>%
   filter(!(name == "Liberty Common Elementary School" & is.na(grades)))
 
@@ -43,6 +43,8 @@ enroll_long <- schools %>%
   filter(open) %>% select(-open)
 
 # --- NCES cross-check ---------------------------------------------------------
+# Attach NCES school ids by name key. The ids are what link PSD schools to the federal 2000-01 enrollment
+# used in the map pop-ups (05_map.R); the point distance below is only a quality check on the match.
 nces <- st_read(file.path(dir_raw, "nces", "edge_geocode_publicsch_2425_psd.geojson"), quiet = TRUE) %>%
   st_transform(crs_wgs84) %>%
   transmute(ncessch = NCESSCH, nces_name = NAME, nces_locale = LOCALE, nces_lat = LAT, nces_lon = LON) %>%
@@ -55,7 +57,8 @@ nces_tbl <- nces %>% st_drop_geometry()
 schools <- schools %>%
   left_join(nces_tbl %>% distinct(key, .keep_all = TRUE), by = "key")
 
-# distance between PSD point and NCES point (QA; both should be within ~300 m)
+# distance between PSD point and NCES point (QA; both should be within ~300 m).
+# Points are in longitude/latitude, so st_distance() is geodesic here, which needs the lwgeom package.
 nces_geom <- nces %>% select(key) %>% distinct(key, .keep_all = TRUE)
 schools <- schools %>%
   mutate(nces_dist_m = {
@@ -67,6 +70,7 @@ schools <- schools %>%
   })
 
 # --- closure status ---------------------------------------------------------
+# Status and sends_to / receives_from come from closure_plan in 00_setup.R.
 schools <- schools %>%
   mutate(status = case_when(
     name %in% closing_schools   ~ "closing",
@@ -89,6 +93,7 @@ write_csv(schools %>% st_drop_geometry() %>% select(-starts_with("En_")), file.p
 write_csv(enroll_long, file.path(dir_proc, "psd_enrollment_long.csv"))
 
 # --- report -----------------------------------------------------------------
+# Console QA only: schools without an NCES match, match distances, and any closure-plan name missing here.
 cat("Schools kept:", nrow(schools), "\n")
 print(table(schools$school_type, schools$status))
 cat("\nUnmatched to NCES:\n"); print(schools %>% st_drop_geometry() %>% filter(is.na(ncessch)) %>% select(name, school_type))

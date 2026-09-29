@@ -49,6 +49,8 @@ enr00 <- as_tibble(ccd00) %>% select(ncessch, school_name, enrollment, lo = lowe
 # corrections_url: a form or issue tracker for corrections (leave "" to omit the line).
 site_url        <- ""
 corrections_url <- ""
+# repo_url: the public GitHub repository, linked in the footer as the home of the code and data ("" to omit).
+repo_url        <- ""
 og_image <- paste0(site_url, "psd_closures_preview.png")
 corrections_html <- if (nzchar(corrections_url)) sprintf(" Spot an error? <a href='%s'>Send a correction</a>.", corrections_url) else " Corrections are welcome."
 
@@ -59,8 +61,8 @@ url_exec <- "https://www.psdschools.org/fs/resource-manager/view/9c94a1cd-0de3-4
 url_dashboard   <- "https://app.powerbi.com/view?r=eyJrIjoiZjMzY2Y0ZDgtODE2NC00N2E5LTg5YjgtNDMwYmYzOGJhMmMyIiwidCI6IjBkNmQ4NDZjLWVhZGQtNGI2Yy1iMDNlLWYxNWNkNGI3ZTljZiIsImMiOjZ9"
 dashboard_title <- "PSD's interactive planning dashboard"
 
-# ---- palette (validated with the dataviz skill's validator, 2026-09-26) -------------
-# Level: categorical slots 1-3 (pass all-pairs CVD and normal-vision checks); gray for other programs.
+# ---- palette (contrast checked for color-vision deficiency, 2026-09-26) -------------
+# Level: three categorical colors that stay distinguishable for common color-vision deficiencies; gray for other programs.
 # 6-12 campuses carry both: high-school fill with a middle-school ring.
 col_level <- c(ES = "#2a78d6", MS = "#eb6834", HS = "#1baf7a", MSHS = "#1baf7a", Other = "#898781")
 ring_level <- c(ES = "#ffffff", MS = "#ffffff", HS = "#ffffff", MSHS = "#eb6834", Other = "#ffffff")
@@ -77,6 +79,8 @@ cen_labs   <- c("10% or more fewer", "5 to 10% fewer", "2 to 5% fewer", "Within 
 pal_cen    <- function(x) cen_cols[findInterval(x, cen_breaks[-c(1, length(cen_breaks))]) + 1]
 
 # ---- helpers -----------------------------------------------------------------
+# Number formatting for pop-ups and tables ("n/a" for missing), short school names, and page-linked citations
+# to the executive summary (PDF viewers honor #page=N).
 fmt  <- function(x, d = 0) ifelse(is.na(x), "n/a", formatC(x, format = "f", digits = d, big.mark = ","))
 pct  <- function(x) ifelse(is.na(x), "n/a", paste0(round(100 * x), "%"))
 sgn  <- function(x) ifelse(is.na(x), "n/a", paste0(formatC(round(x), format = "d", big.mark = ",", flag = "+"), "%"))
@@ -87,6 +91,7 @@ cite  <- function(page, short = FALSE) sprintf("<a href='%s#page=%s' target='_bl
                                               ifelse(short, "", "PSD CPC executive summary, "), page)
 dash_a <- function(txt = dashboard_title) if (nzchar(url_dashboard)) sprintf("<a href='%s' target='_blank' rel='noopener'>%s</a>", url_dashboard, txt) else ""
 
+# Enrollment years shown in pop-ups: 2000-01 from NCES (above), the rest from PSD's points layer.
 yrs <- c("2000-01", "2010-11", "2015-16", "2019-20", "2024-25")
 enr_wide <- enr %>% filter(school_year %in% yrs) %>% select(name, school_year, enrollment) %>%
   pivot_wider(names_from = school_year, values_from = enrollment) %>%
@@ -116,6 +121,8 @@ census_rows <- function(nm, lv) {
 fine_census <- "<div class='fine'>Census counts are area-weighted estimates from 2000, 2010 and 2020 census blocks, so they are approximate. Percentages from a very small starting count can be large. Where children live is not the same as where they attend school.</div>"
 
 # ---- school table ------------------------------------------------------------------
+# One row per school with its working capacity and, for recommended schools, the district's quoted reason.
+# popup_school() builds the HTML pop-up for each school; its content depends on the school's status.
 sch <- pts %>% mutate(lvl = lvl_of(school_type)) %>%
   left_join(util %>% select(name, nsc_cap, util_nsc, capacity_source), by = "name") %>%
   left_join(rat, by = c("name" = "school"))
@@ -127,7 +134,9 @@ from_of <- function(nm) closure_plan %>% filter(receiving == nm, action == "clos
 popup_school <- function(nm) {
   r <- sch_df %>% filter(name == nm) %>% slice(1)
   if (nrow(r) == 0) return(nm)
-  cap_src <- ifelse(isTRUE(r$capacity_source == "cpc_exec_summary"), "from the executive summary", "derived from PSD's boundary map layer")
+  cap_src <- if (isTRUE(r$capacity_source == "cpc_exec_summary")) "from the executive summary"
+             else if (isTRUE(str_starts(r$capacity_source, "derived"))) "derived from PSD's boundary map layer"
+             else "estimated from the older capacity field in PSD's school layer" 
   cap_line <- if (!is.na(r$nsc_cap)) sprintf("<div>Working capacity: %s students (%s). Use in 2024-25: %s.</div>", fmt(r$nsc_cap), cap_src, pct(r$util_nsc)) else ""
   head <- sprintf("<div class='pp'><h4>%s</h4><div class='sub'>%s &middot; grades %s</div>", nm, lab_level[lvl_of(r$school_type)], r$grades)
   body <- switch(r$status,
@@ -176,7 +185,12 @@ nav_buttons <- function(m) m %>%
     onClick = JS(sprintf("function(btn, map){ map.fitBounds([[%f,%f],[%f,%f]]); }", bb_dist$ymin, bb_dist$xmin, bb_dist$ymax, bb_dist$xmax)))) %>%
   addEasyButton(easyButton(title = "Zoom to the Fort Collins city limits (Census 2024)", icon = "<span>Fort Collins city limits</span>",
     onClick = JS(sprintf("function(btn, map){ map.fitBounds([[%f,%f],[%f,%f]]); }", bb_fc$ymin, bb_fc$xmin, bb_fc$ymax, bb_fc$xmax))))
-# Titles inside the layer control, re-applied whenever Leaflet rebuilds the list; optional exclusive groups.
+# JavaScript run once each map renders (htmlwidgets::onRender):
+#   heads          list of c(first label in a section, section title) pairs; a title is inserted above that label.
+#                  Leaflet rebuilds the layer list whenever a layer is toggled, so titles are re-added each time.
+#   exclusive      overlay groups that behave like radio buttons (turning one on turns the others off).
+#   legend_groups  groups whose legend box (class legend-cen) is shown only while one of them is on.
+# The layer menu starts expanded on screens wider than 700 px and collapsed on phones.
 layer_js <- function(heads, exclusive = character(), legend_groups = character()) {
   sprintf("function(el, x){
     var map = this, heads = %s, excl = %s, lg = %s, box = el.querySelector('.legend-cen');
@@ -226,7 +240,7 @@ legend_level <- tags$div(class = "legend-box",
                       col_level, ifelse(names(col_level) == "MSHS", "2.5px", "1px"),
                       ifelse(names(col_level) == "MSHS", "#eb6834", "#898781"), lab_level), collapse = "")))
 legend_cen <- tags$div(class = "legend-box",
-  tags$b("Children under 18: change"),
+  tags$b("Children under 18: change by elementary zone"),
   HTML(paste0(sprintf("<span class='box' style='background:%s'></span>%s<br>", cen_cols, cen_labs), collapse = "")),
   if (any(map_lgl(seq_len(nrow(cen_layers)), ~ any(!cen_poly(cen_layers$from[.x], cen_layers$to[.x])$ok))))
     HTML("<span class='box' style='background:#d9d8d4;border:1px dashed #898781'></span>No children recorded in the starting year"))
@@ -237,6 +251,7 @@ zones1 <- function(m, lv, group) {
               weight = 2, opacity = 0.85, popup = ~popup, label = ~paste(short(name), "zone"), group = group,
               highlightOptions = highlightOptions(weight = 4, fillOpacity = 0.15, bringToFront = FALSE))
 }
+# Map panes set drawing order: zone outlines (default overlay pane, z 400) < census fill < school points.
 m1 <- leaflet(width = "100%", height = 640, options = leafletOptions(minZoom = 8)) %>%
   addMapPane("census", zIndex = 420) %>% addMapPane("schools", zIndex = 450) %>%
   addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
@@ -269,7 +284,7 @@ m1 <- m1 %>%
   htmlwidgets::onRender(layer_js(
     heads = list(c("Elementary zones", "School District Boundaries"),
                  c("Elementary schools", "School Locations"),
-                 c(cen_layers$grp[1], "Decadal Census: Population Under 18")),
+                 c(cen_layers$grp[1], "Decadal Census: Population Under 18, by Elementary Zone")),
     exclusive = cen_layers$grp, legend_groups = cen_layers$grp))
 
 # ---- map 2: what the recommendation changes ---------------------------------------------
@@ -287,6 +302,8 @@ zones2 <- function(m, lv, group) {
               opacity = 0.9, popup = ~popup, label = ~ifelse(status == "no_change", paste(short(name), "zone"), paste0(short(name), " zone: ", lab_status[status])),
               group = group, highlightOptions = highlightOptions(weight = 3, fillOpacity = 0.55, bringToFront = FALSE))
 }
+# Straight dashed lines from each closing school to each named receiver. They show the plan's pairings,
+# not routes or final boundary assignments.
 pt_xy <- sch_df %>% distinct(name, .keep_all = TRUE) %>% select(name, lon, lat)
 lines <- closure_plan %>% filter(!is.na(receiving), action == "close") %>%
   left_join(pt_xy, by = c("closing" = "name")) %>% rename(x0 = lon, y0 = lat) %>%
@@ -307,6 +324,7 @@ legend_status <- tags$div(class = "legend-box",
   HTML(paste0(sprintf("<span class='box' style='background:%s;opacity:.85'></span>%s<br>", col_status, lab_status), collapse = "")),
   HTML("<span class='ln'></span>To each named receiver<br><span class='dot' style='background:#c3c2b7;width:8px;height:8px'></span>Other schools"))
 
+# Drawing order: zones < lines < other schools < affected schools < consolidating schools (always clickable).
 m2 <- leaflet(width = "100%", height = 640, options = leafletOptions(minZoom = 8)) %>%
   addMapPane("lines", zIndex = 430) %>% addMapPane("others", zIndex = 440) %>%
   addMapPane("affected", zIndex = 460) %>% addMapPane("consol", zIndex = 470) %>%
@@ -346,10 +364,12 @@ html_table <- function(df, num_cols) {
   tr <- apply(df, 1, function(r) paste0("<tr>", paste0(sprintf("<td%s>%s</td>", ifelse(names(df) %in% num_cols, " class='num'", ""), r), collapse = ""), "</tr>"))
   paste0("<table class='data'>", th, paste(tr, collapse = ""), "</table>")
 }
+# One-line paraphrases of each school's stated reason for the summary table. They are mine, not quotes;
+# the full quoted excerpt is in each school's pop-up and every row links to the cited page.
 reason_short <- c(
   "Beattie Elementary" = "Enrollment, low utilization, building design, nearby schools",
   "Irish Elementary" = "Declining enrollment; more programming and staff at receivers",
-  "Johnson Elementary" = "Lowest enrollment, utilization and facility score in its region",
+  "Johnson Elementary" = "Ranked first of five southwest schools on a combined enrollment, utilization and facility score",
   "Putnam Elementary" = "Declining enrollment, projected 98 students by 2030-31",
   "Livermore Elementary" = "Remote location, emergency access; more programming at CLP",
   "Red Feather Elementary" = "Remote location, emergency access; more programming at CLP",
@@ -371,13 +391,43 @@ t_recv <- sch_df %>% filter(status == "receiving", name != "Harris Elementary") 
             `Enrollment, 2024-25` = enr_wide$`2024-25`[match(name, enr_wide$name)],
             `Working capacity` = fmt(nsc_cap), `Use of working capacity` = pct(util_nsc))
 
+# ---- district-wide context ------------------------------------------------------------------
+# All district-run schools with a working capacity (the rows of utilization_by_school.csv; charters and a few sites
+# without a comparable capacity are excluded in 04_utilization.R). The nine closures remove their buildings' working
+# capacity while their students stay in PSD, so district totals do not depend on how closing zones are divided.
+# Students stay at the same school level, so open seats by level fall by the closing buildings' capacity at that level.
+# The Centennial/PCA consolidation is left out because the campus to be kept is not yet decided.
+ctx <- util %>% mutate(grp = case_when(level == "ES" ~ "Elementary", level == "MS" ~ "Middle", level == "HS" ~ "High",
+                                       TRUE ~ "Grades 6-12 and alternative"),
+                       closing = status == "closing")
+ctx_cap <- sum(ctx$nsc_cap); ctx_enr <- sum(ctx$enroll_2024_25); ctx_close_cap <- sum(ctx$nsc_cap[ctx$closing])
+ctx_open_now <- ctx_cap - ctx_enr; ctx_open_after <- ctx_open_now - ctx_close_cap
+about <- function(x) paste0("about ", formatC(round(x, -2), format = "d", big.mark = ","))
+t_ctx <- tibble(` ` = c("Today (2024-25)", "After the nine closures"),
+                `Working capacity (seats)` = fmt(c(ctx_cap, ctx_cap - ctx_close_cap)),
+                `Students` = fmt(c(ctx_enr, ctx_enr)),
+                `Open seats` = fmt(c(ctx_open_now, ctx_open_after)),
+                `Use of working capacity` = pct(c(ctx_enr / ctx_cap, ctx_enr / (ctx_cap - ctx_close_cap))))
+t_lvl <- ctx %>% group_by(`School level` = grp) %>%
+  summarise(now = sum(nsc_cap - enroll_2024_25), after = now - sum(nsc_cap[closing]), .groups = "drop") %>%
+  arrange(match(`School level`, c("Elementary", "Middle", "High", "Grades 6-12 and alternative"))) %>%
+  transmute(`School level`, `Open seats today` = fmt(now), `Open seats after the closures` = fmt(after))
+ctx_hs_after <- with(ctx %>% filter(grp == "High"), sum(nsc_cap - enroll_2024_25) - sum(nsc_cap[closing]))
+
 # ---- page ---------------------------------------------------------------------------------
+# Fill the {{ placeholders }} in map_page_template.html. Widget and table arguments must be HTML objects.
 page <- htmlTemplate(file.path(proj_root, "R", "map_page_template.html"),
-  map1 = m1, map2 = m2, updated = format(Sys.Date(), "%B %-d, %Y"),
+  map1 = m1, map2 = m2, updated = local({ d <- Sys.Date(); sprintf("%s %d, %s", month.name[as.integer(format(d, "%m"))], as.integer(format(d, "%d")), format(d, "%Y")) }),  # English, no %-d (not on Windows)
   n_receivers = length(setdiff(receiving_schools, "Harris Elementary")),
   table_closing = HTML(html_table(t_close, c("Enrollment", "Use of working capacity", "Deferred maintenance"))),
   table_receiving = HTML(html_table(t_recv, c("Enrollment, 2024-25", "Working capacity", "Use of working capacity"))),
   site_url = site_url, og_image = og_image, corrections = HTML(corrections_html),
+  code_link = HTML(if (nzchar(repo_url)) sprintf(" Code and data: <a href='%s'>GitHub</a> (code under the MIT license).", repo_url) else ""),
+  ctx_n = nrow(ctx), ctx_open_now = about(ctx_open_now), ctx_open_after = about(ctx_open_after),
+  ctx_close_cap = about(ctx_close_cap), ctx_use_now = pct(ctx_enr / ctx_cap),
+  ctx_use_after = pct(ctx_enr / (ctx_cap - ctx_close_cap)), ctx_hs_after = about(ctx_hs_after),
+  table_context = HTML(html_table(t_ctx, names(t_ctx)[-1])),
+  table_levels = HTML(html_table(t_lvl, names(t_lvl)[-1])),
   dashboard_note = HTML(if (nzchar(url_dashboard)) paste0(" For another view of how enrollment has changed over time, the district publishes ", dash_a(),
     " (Power BI, opens in a new tab). It cannot be downloaded or linked school by school, so no figure on this page is taken from it.") else ""),
   dashboard_source = HTML(if (nzchar(url_dashboard)) sprintf("<li>PSD, <a href=\"%s\">%s</a> (Power BI, published to the web). A further reference for enrollment change over time. The report offers no download, so no figure on this page is taken from it.</li>", url_dashboard, dashboard_title) else ""))

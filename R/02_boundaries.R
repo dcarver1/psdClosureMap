@@ -7,6 +7,7 @@ source(file.path(if (basename(getwd()) == "R") "." else "R", "00_setup.R"))
 
 rd <- function(f) st_read(file.path(dir_raw, f), quiet = TRUE) %>% st_transform(crs_wgs84) %>% st_make_valid()
 
+# The three level layers carry slightly different attribute sets; a field a layer lacks becomes NA.
 std_psd <- function(x, level) {
   x %>% transmute(
     level      = level,
@@ -30,7 +31,8 @@ cur <- bind_rows(
   std_psd(rd("psd_arcgis/Boundaries2022_layer1.geojson"), "HS")
 ) %>% mutate(vintage = "current_2026")
 
-# Attach the PSD full school name used in the points layer (so every layer joins on one name)
+# Attach the PSD full school name used in the points layer (so every layer joins on one name).
+# The build stops if any zone has no matching school, since its status and pop-up would silently be wrong.
 pts <- st_read(file.path(dir_proc, "psd_schools.gpkg"), quiet = TRUE) %>% st_drop_geometry() %>%
   distinct(key, .keep_all = TRUE) %>% select(key, name)
 cur <- cur %>% left_join(pts, by = "key")

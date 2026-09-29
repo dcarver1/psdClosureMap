@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PSD Closure Maps</title>
+<link rel="license" href="https://creativecommons.org/licenses/by/4.0/">
 <meta name="description" content="Two maps of Poudre School District's 2027-28 closure recommendation: the district today, and what the recommendation changes, with the district's own reasoning and the limits of the data.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Poudre School District's closure recommendation, on the map">
@@ -106,7 +107,7 @@
     <div class="tile"><b>9</b><span>schools recommended to close</span></div>
     <div class="tile"><b>2</b><span>schools to consolidate into one (Centennial and PCA)</span></div>
     <div class="tile"><b>{{ n_receivers }}</b><span>schools named to receive students</span></div>
-    <div class="tile"><b>$7.9M</b><span>estimated operating savings a year (sum of the district's estimates)</span></div>
+    <div class="tile"><b>$7.9M</b><span>estimated decrease in day-to-day operating costs a year</span></div>
   </div>
   <div class="caption" style="max-width:none;margin:0 0 8px !important">School counts are from the district announcement; the savings figure adds the per-school estimates in the executive summary.</div>
 
@@ -116,7 +117,7 @@
   </div>
   <figure class="hint" aria-label="Where to find the layer menu">
     <div class="mock" aria-hidden="true"><span class="btn leaflet-control-layers-toggle"></span><span class="ring"></span></div>
-    <p><b>Look for this button in the top-right corner of each map.</b> Hover over it, or tap it on a phone, to open the layer menu. From there you can switch school district boundaries, show or hide school types, and choose a census comparison.</p>
+    <p><b>Look for this button in the top-right corner of each map.</b> Hover over it, or tap it on a phone, to open the layer menu. From there you can switch between elementary, middle and high school zones, show or hide school types, and choose a census comparison.</p>
   </figure>
   <div class="mapwrap">{{ map1 }}</div>
   <div class="caption">Scroll to zoom, and click a zone or school for details. The buttons at top left jump to the whole of Poudre School District R-1 or to the Fort Collins city limits.</div>
@@ -126,9 +127,9 @@
       <h3>How to read this map</h3>
       <ul class="tight">
         <li><b>Color shows school level.</b> Blue is elementary, orange is middle, and green is high school. Timnath and Wellington are middle-high campuses serving grades 6 to 12; they are green with an orange ring and appear under both middle and high schools.</li>
-        <li><b>Gray points are schools without a neighborhood zone.</b> Families apply or enroll directly, so no area on the map feeds them. The groupings follow the school types in PSD's school map layer. They include charter schools (Fort Collins Montessori, Liberty Common, Mountain Sage, and Ridgeview Classical), district choice schools built around a particular program (such as Harris Bilingual Immersion, Kinard, Polaris Expeditionary Learning, Traut, and PSD Global Academy), the alternative high schools Centennial and Poudre Community Academy, and early childhood centers such as Fullana.</li>
+        <li><b>Gray points are schools without a neighborhood zone.</b> Families apply or enroll directly, so no area on the map feeds them. They include charter schools (Fort Collins Montessori, Liberty Common, Mountain Sage, and Ridgeview Classical), district choice schools built around a particular program (such as Harris Bilingual Immersion, Kinard, Polaris Expeditionary Learning, Traut, and PSD Global Academy), the alternative high schools Centennial and Poudre Community Academy, and early childhood centers such as Fullana.</li>
         <li><b>Zone outlines</b> are the district's current neighborhood attendance boundaries. Only one level is shown at a time because the levels overlap.</li>
-        <li><b>The census layers</b> shade each elementary zone by the percentage change in residents under 18 between censuses: 2000 to 2020, 2000 to 2010, or 2010 to 2020. Brown means fewer children, teal means more, and pale gray means little change. One census layer shows at a time. Hover over a zone to see the counts behind its percentage.</li>
+        <li><b>The census layers</b> shade each elementary zone by the percentage change in residents under 18 between censuses: 2000 to 2020, 2000 to 2010, or 2010 to 2020. They use elementary school boundaries because eight of the nine recommended closures are elementary schools. Brown means fewer children, teal means more, and pale gray means little change. One census layer shows at a time. Hover over a zone to see the counts behind its percentage.</li>
         <li><b>District-wide, the child population grew more slowly than the adult population.</b> Residents under 18 rose about 19%, from roughly 35,600 in 2000 to 42,500 in 2020. Residents 18 and older rose about 46% over the same area and years, from roughly 122,500 to 178,500. As a result, children's share of the population fell from 22.5% to 19.2%.</li>
       </ul>
     </div>
@@ -146,7 +147,7 @@
 
   <div class="prose">
     <h2>2. What the recommendation changes</h2>
-    <p>This map focuses on the schools the recommendation affects. Closing zones are shaded dark gray and receiving zones blue. A dashed line runs from each closing school to each school named to receive its students. Click any school for the district's stated reason, quoted from its executive summary, alongside enrollment and capacity figures.</p>
+    <p>This map focuses on the schools the recommendation affects. Closing zones are shaded dark gray, receiving zones blue, and Bacon's boundary change yellow. A dashed line runs from each closing school to each school named to receive its students. Click a closing or consolidating school for the district's stated reason, quoted from its executive summary. Every school's pop-up also shows enrollment and capacity figures.</p>
   </div>
   <div class="mapwrap">{{ map2 }}</div>
   <div class="caption">Switch between elementary and middle school changes in the top-right control. The two consolidating schools, Centennial and Poudre Community Academy, are alternative high schools without neighborhood zones. They appear as the largest points, with a dark ring.</div>
@@ -163,17 +164,17 @@
     <div>
       <h3>What this map cannot tell you</h3>
       <ul class="tight">
-        <li><b>Savings are only half of the ledger.</b> The executive summary estimates savings from lower day-to-day operating costs and from deferred maintenance that would no longer be needed. Carrying out the changes will also cost money, for example at receiving schools, for a site for the combined Centennial and PCA school, for added transportation, and for the transition itself. Those costs are not yet estimated, and realistic figures are not possible without more information from the district.</li>
+        <li><b>Savings are only half of the ledger.</b> The executive summary estimates savings from lower day-to-day operating costs and from deferred maintenance that would no longer be needed. Carrying out the changes will also cost money, for example at receiving schools, for a site for the combined Centennial and PCA school, for added transportation, and for the transition itself. Those costs are not yet estimated, and the published documents do not give enough detail to estimate them.</li>
         <li><b>Bacon's boundary change is not drawn.</b> The district describes two small areas moving to Bacon from Bamford and Werner, identified by planning grid codes that are not published as map data.</li>
         <li><b>Harris is optional.</b> A cohort of multilingual learners from Irish will be offered places at Harris Bilingual Immersion; other Irish students go to Cache La Poudre or Bauder (<a href="https://www.psdschools.org/community/district-news-details/~board/poudre-school-district-news/post/psd-comprehensive-planning-committee-recommendation-released">announcement</a>).</li>
-        <li><b>Enrollment counts differ slightly.</b> The executive summary appears to use a newer count than the 2024-25 figures here. In my comparison its utilization for Beattie, Irish, Johnson, and Putnam is 3 to 5 points lower.</li>
+        <li><b>Enrollment counts differ.</b> The executive summary counts 12 to 39 fewer students at Beattie, Irish, Johnson, and Putnam than PSD's 2024-25 figures used here, so its use of working capacity for those schools runs 3 to 7 points lower.</li>
       </ul>
     </div>
   </div>
 
   <div class="prose">
     <h3>Schools recommended to close or consolidate</h3>
-    <p>Reasons, deferred maintenance, and page numbers come from the executive summary. Enrollment is PSD's 2024-25 count. Use of working capacity divides that enrollment by the district's working capacity (my calculation).{{ dashboard_note }}</p>
+    <p>Reasons, deferred maintenance, and page numbers come from the executive summary. The reasons here are shortened in my words; each school's pop-up quotes the district directly. Enrollment is PSD's 2024-25 count. Use of working capacity divides that enrollment by the district's working capacity (my calculation).{{ dashboard_note }}</p>
   </div>
   <div class="tablewrap">{{ table_closing }}</div>
 
@@ -185,16 +186,26 @@
 
   <div class="prose">
     <h3>District-wide context</h3>
-    <p>The district counts 10,539 open seats, based on working capacity and its average projected enrollment for 2025 to 2030 (<a href="https://www.psdschools.org/fs/resource-manager/view/a62d419e-f10a-420d-a695-bd52a678df80#page=20">slides, p. 20</a>). The rest of this paragraph is my calculation using the same method. With 2024-25 enrollment instead of projections, the figure is about 9,000. The closing buildings hold roughly 3,500 of those seats, about 40%. If every student from a closing school moves to another PSD school, district-wide use of working capacity rises from 73% to about 82%, however the zones are divided. Much of the remaining open space is at the high school level, which this recommendation does not change.</p>
+    <p>This section steps back from the schools in the two tables above. It looks at all {{ ctx_n }} district-run schools that have a working capacity figure. Charter schools and a few sites without a comparable capacity figure are left out. "Open seats" means room for more students before a school reaches its working capacity (see "Capacity, in plain words" below).</p>
+    <p><b>The district's figure.</b> The district counts 10,539 open seats. That is its working capacity minus the enrollment it projects, on average, for 2025 to 2030 (<a href="https://www.psdschools.org/fs/resource-manager/view/a62d419e-f10a-420d-a695-bd52a678df80#page=20">slides, p. 20</a>).</p>
+    <p><b>The same count with today's enrollment.</b> From here on, the figures are my calculation using the district's method. With actual 2024-25 enrollment in place of projections, PSD has {{ ctx_open_now }} open seats, and {{ ctx_use_now }} of its working capacity is in use. The district's figure is higher, as you would expect if its projections assume fewer students than today.</p>
+    <p><b>What the closures change.</b> The nine closing schools have {{ ctx_close_cap }} seats of working capacity between them. Closing them removes those seats, but their students stay in PSD and move to other schools. So open seats fall to {{ ctx_open_after }}, and the share of working capacity in use rises to {{ ctx_use_after }}. This does not depend on how the closing zones are divided, because it uses only district totals. The Centennial and PCA consolidation is not included, since the campus to be kept has not been chosen.</p>
+  </div>
+  <div class="tablewrap">{{ table_context }}</div>
+  <div class="prose">
+    <p><b>Where the open seats remain.</b> After the closures, high schools hold the most open seats of any level, {{ ctx_hs_after }}. The recommendation does not close or change any high school.</p>
+  </div>
+  <div class="tablewrap">{{ table_levels }}</div>
+  <div class="prose">
 
     <h3>Capacity, in plain words</h3>
     <dl class="defs">
       <dt>Working capacity (the district's "National Standard Capacity")</dt>
       <dd>The number of students a building can hold while keeping space for programs such as early childhood and center-based special education. The district describes it as 80% of capacity (<a href="https://www.psdschools.org/fs/resource-manager/view/a62d419e-f10a-420d-a695-bd52a678df80#page=20">slides, p. 20</a>). In the district's boundary map data the ratio is 80% for elementary schools, 75% for middle schools, and 85% for high schools (my calculation).</dd>
       <dt>Full capacity</dt>
-      <dd>The district's larger capacity figure, labeled "RIC". The slides say the number of open seats "would be higher (RIC) if we didn't choose to provide space for those specialized programs" (<a href="https://www.psdschools.org/fs/resource-manager/view/a62d419e-f10a-420d-a695-bd52a678df80#page=20">p. 20</a>). No school on this page exceeds full capacity after the closures.</dd>
+      <dd>The district's larger capacity figure, labeled "RIC". The slides say the number of open seats "would be higher (RIC) if we didn't choose to provide space for those specialized programs" (<a href="https://www.psdschools.org/fs/resource-manager/view/a62d419e-f10a-420d-a695-bd52a678df80#page=20">p. 20</a>). Whether any receiving school would exceed its full capacity depends on where the closing zones are divided, which the district has not yet published.</dd>
       <dt>A note on derived capacities</dt>
-      <dd>The executive summary quotes capacity for the closing schools. For other schools, I worked out capacity from the utilization percentages on the district's public boundary map layer. For a few schools, including Eyestone, Poudre High, Preston, and Boltz, those derived figures are well above the district's older capacity records, so treat single-school figures for them with care.</dd>
+      <dd>The executive summary quotes capacity for the closing schools. For other schools, I worked out capacity from the utilization percentages on the district's public boundary map layer. For a few schools, including Eyestone, Poudre High, Preston, and Boltz, those derived figures are well above the district's older capacity records, so treat single-school figures for them with care. Harris, Traut, and Kinard have no percentage on that layer, so their capacity is estimated from the older records.</dd>
     </dl>
 
     <h2>Sources</h2>
@@ -212,6 +223,7 @@
 
   <footer>
     Built with R and Leaflet. Basemap: Esri World Gray Canvas (credits shown on each map). Page last rebuilt {{ updated }}. Figures are my own calculations from the sources above and may contain errors.{{ corrections }}
+    <br>Text, maps and tables on this page by Dan Carver are licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license">CC BY 4.0</a>: reuse them freely with credit. The district's quoted words, the source data, and the basemap remain under their owners' terms.{{ code_link }}
   </footer>
 </main>
 </body>

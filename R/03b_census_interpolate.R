@@ -10,6 +10,7 @@ source(file.path(if (basename(getwd()) == "R") "." else "R", "00_setup.R"))
 bnd <- st_read(file.path(dir_proc, "boundaries_current.gpkg"), quiet = TRUE) %>% st_transform(crs_utm)
 dist <- st_read(file.path(dir_proc, "psd_district_boundary.gpkg"), quiet = TRUE) %>% st_transform(crs_utm) %>%
   transmute(level = "District", name = name, school = "PSD", status = "district")
+# Every zone at every level, plus the whole district as one extra "zone" for the district-wide totals.
 zones <- bind_rows(bnd %>% select(level, name, school, status), dist) %>%
   mutate(zone_id = row_number(), zone_area_sqmi = as.numeric(st_area(geom)) / 2589988.11)
 
@@ -45,7 +46,7 @@ pop_wide <- pop_long %>%
 write_csv(pop_long, file.path(dir_out, "census_decennial_by_boundary_long.csv"))
 write_csv(pop_wide, file.path(dir_out, "census_decennial_by_boundary_wide.csv"))
 
-# sanity: district total vs county total
+# sanity: district total vs county total (the district holds most, not all, of Larimer County's residents)
 cnty <- map_dfr(years, ~ st_read(file.path(dir_proc, paste0("blocks_", .x, ".gpkg")), quiet = TRUE) %>%
                   st_drop_geometry() %>% summarise(year = .x, county_total = sum(total), county_under18 = sum(under18)))
 print(pop_long %>% filter(level == "District") %>% select(year, total, under18) %>% inner_join(cnty, by = "year"))

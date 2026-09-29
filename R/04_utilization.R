@@ -11,12 +11,18 @@
 #       the CPC executive summary for all 11 schools quoted there.
 #   data/raw/psd_arcgis/Schools_PSD.geojson  En_2024_25 enrollment; legacy Capacity fields
 #   data/raw/psd_cpc/cpc_executive_summary_2026-09-25.txt  RIC / NSC seat counts for the
-#       recommended schools (transcribed below with line numbers).
+#       recommended schools (transcribed in the `cpc` table below; txt_line is the line in that file).
 #   data/processed/psd_schools.csv, psd_enrollment_long.csv  (from 01_school_points.R)
 #   R/00_setup.R  closure_plan
 #
-# Outputs: output/utilization_by_school.csv, output/utilization_summary.csv,
-#          output/utilization_before_after.png
+# Capacity per school, in order of preference: the executive summary's seat counts; else 2024-25 enrollment
+# divided by the boundary layer's RIC percentage; else the older Capacity_1 field in Schools_PSD (Harris,
+# Traut and Kinard, which have no RIC percentage).
+#
+# Outputs (published): output/utilization_by_school.csv, output/utilization_summary.csv. Neither contains
+#   per-school figures that depend on how closing zones are split.
+# Outputs (review only, git-ignored): output/scenario/ -- an even-split scenario that divides each closing
+#   school's students equally among its named receivers, plus a before/after chart.
 
 source(file.path(if (basename(getwd()) == "R") ".." else ".", "R", "00_setup.R"))
 suppressPackageStartupMessages({ library(ggplot2); library(ggrepel) })
@@ -91,7 +97,8 @@ cpc <- tribble(
   "Centennial HS",               87, 391,  332,  22.25, 26.20, 2185
 )
 
-# NSC / RIC factor by level, checked against the layer percentages below
+# NSC / RIC factor by level. ES, MS and HS are checked against the layer percentages below; the MS/HS and
+# Option values are assumptions (the district's stated 80%) for the few schools without a layer percentage.
 nsc_factor <- c(ES = 0.80, MS = 0.75, HS = 0.85, `MS/HS` = 0.80, Option = 0.80)
 
 tab <- base %>%
@@ -174,6 +181,8 @@ summarise_scen <- function(df, scenario, enroll_col, ric_col, nsc_col) {
             map_dfr(c("ES", "MS", "HS", "MS/HS", "Option"), ~ f(df %>% filter(level == .x), .x)))
 }
 
+# Scenarios (review only). The "_2030" rows apply a flat 7.5% enrollment decline to every school as a
+# sensitivity check; it is a round assumption, not a district projection.
 scen <- list(
   before                          = before %>% mutate(enroll_after = enroll, ric_cap_after = ric_cap, nsc_cap_after = nsc_cap),
   after_closures_only             = apply_plan(before, "none"),
@@ -303,10 +312,10 @@ pg <- ggplot(plot_df, aes(y = label)) +
   scale_shape_manual(NULL, values = c(`FALSE` = 16, `TRUE` = 4), labels = c("", "Closing school"), guide = "none") +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0.2, 1.2, 0.2),
                      limits = c(0.15, 1.30), expand = expansion(0)) +
-  labs(title = "PSD school utilization against National Standard Capacity, before and after the CPC plan",
-       subtitle = paste0("Utilization = 2024-25 enrollment / NSC. After: nine closures removed, their students split equally among named receivers.\n",
-                         "Guide lines mark the FCB-R 70%-95% range. X marks = schools recommended to close (their students move right along the blue segments)."),
-       x = "Utilization vs NSC", y = NULL,
+  labs(title = "PSD school use of working capacity (NSC), before and after the CPC plan",
+       subtitle = paste0("Use = 2024-25 enrollment / NSC. After: nine closures removed, their students split equally among named receivers (illustrative only).\n",
+                         "Guide lines mark 70% and 95%. X marks = schools recommended to close (their students move right along the blue segments)."),
+       x = "Use of working capacity (NSC)", y = NULL,
        caption = paste0("Capacity: CPC executive summary seat counts (11 schools) or Boundaries2022 RIC%/NSC% fields x 2024-25 enrollment;\n",
                         "Harris, Kinard and Traut use the legacy Schools_PSD capacity field (no RIC published).\n",
                         "Centennial and PCA are shown at their current campuses; the consolidation outcome depends on which campus is kept.")) +
@@ -321,4 +330,4 @@ pg <- ggplot(plot_df, aes(y = label)) +
         plot.caption = element_text(colour = ink2, size = 7.5, hjust = 0), plot.title.position = "plot",
         panel.spacing.y = unit(8, "pt"))
 ggsave(file.path(dir_scen, "utilization_before_after_even_split.png"), pg, width = 10, height = 12.5, dpi = 170, bg = surface, device = ragg::agg_png)
-cat("\nWrote output/utilization_by_school.csv, output/utilization_summary.csv, output/utilization_before_after.png\n")
+cat("\nWrote output/utilization_by_school.csv, output/utilization_summary.csv, and the review-only files in output/scenario/\n")

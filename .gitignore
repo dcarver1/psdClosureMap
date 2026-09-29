@@ -1,6 +1,12 @@
 # private working notes, exploratory work, and the even-split scenario kept off the public repo
 private/
 output/scenario/
+# derived layers rebuilt by R/01_school_points.R and R/02_boundaries.R (cached downloads stay committed)
+data/processed/psd_schools.gpkg
+data/processed/psd_schools.csv
+data/processed/psd_enrollment_long.csv
+data/processed/boundaries_current.gpkg
+data/processed/psd_district_boundary.gpkg
 # R session files
 .Rhistory
 .RData

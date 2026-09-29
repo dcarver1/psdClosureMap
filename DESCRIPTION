@@ -1,0 +1,28 @@
+Package: psdclosuremap
+Type: Project
+Title: Poudre School District 2026 Closure Recommendation, on the Map
+Version: 1.0.0
+Description: Scripts that build the interactive map page in output/. This file exists so that
+    renv records only the packages the scripts load (plus their dependencies).
+License: MIT + file LICENSE
+Depends: R (>= 4.4)
+Imports:
+    dplyr,
+    ggplot2,
+    ggrepel,
+    htmltools,
+    htmlwidgets,
+    jsonlite,
+    leaflet,
+    lwgeom,
+    purrr,
+    ragg,
+    readr,
+    scales,
+    sf,
+    stringr,
+    tidycensus,
+    tidyr,
+    tigris
+Suggests:
+    pdftools
