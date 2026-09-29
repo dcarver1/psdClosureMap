@@ -53,6 +53,11 @@ og_image <- paste0(site_url, "psd_closures_preview.png")
 corrections_html <- if (nzchar(corrections_url)) sprintf(" Spot an error? <a href='%s'>Send a correction</a>.", corrections_url) else " Corrections are welcome."
 
 url_exec <- "https://www.psdschools.org/fs/resource-manager/view/9c94a1cd-0de3-49b9-9ebb-f3f2128ec379"
+# PSD's interactive planning dashboard (Power BI "publish to web"). It offers no data export and no
+# per-school deep link (publish-to-web ignores URL filters), so it is mentioned once, above the tables and in
+# Sources, as a further reference for enrollment change over time. Set url_dashboard to "" to drop the mention.
+url_dashboard   <- "https://app.powerbi.com/view?r=eyJrIjoiZjMzY2Y0ZDgtODE2NC00N2E5LTg5YjgtNDMwYmYzOGJhMmMyIiwidCI6IjBkNmQ4NDZjLWVhZGQtNGI2Yy1iMDNlLWYxNWNkNGI3ZTljZiIsImMiOjZ9"
+dashboard_title <- "PSD's interactive planning dashboard"
 
 # ---- palette (validated with the dataviz skill's validator, 2026-09-26) -------------
 # Level: categorical slots 1-3 (pass all-pairs CVD and normal-vision checks); gray for other programs.
@@ -80,6 +85,7 @@ short <- function(x) str_remove(x, " (Elementary|Middle|HS|Middle High School)$"
 lvl_of <- function(t) case_when(t == "ES" ~ "ES", t == "MS" ~ "MS", t == "HS" ~ "HS", t == "MS / HS" ~ "MSHS", TRUE ~ "Other")
 cite  <- function(page, short = FALSE) sprintf("<a href='%s#page=%s' target='_blank' rel='noopener'>%sp. %s</a>", url_exec, page,
                                               ifelse(short, "", "PSD CPC executive summary, "), page)
+dash_a <- function(txt = dashboard_title) if (nzchar(url_dashboard)) sprintf("<a href='%s' target='_blank' rel='noopener'>%s</a>", url_dashboard, txt) else ""
 
 yrs <- c("2000-01", "2010-11", "2015-16", "2019-20", "2024-25")
 enr_wide <- enr %>% filter(school_year %in% yrs) %>% select(name, school_year, enrollment) %>%
@@ -371,7 +377,10 @@ page <- htmlTemplate(file.path(proj_root, "R", "map_page_template.html"),
   n_receivers = length(setdiff(receiving_schools, "Harris Elementary")),
   table_closing = HTML(html_table(t_close, c("Enrollment", "Use of working capacity", "Deferred maintenance"))),
   table_receiving = HTML(html_table(t_recv, c("Enrollment, 2024-25", "Working capacity", "Use of working capacity"))),
-  site_url = site_url, og_image = og_image, corrections = HTML(corrections_html))
+  site_url = site_url, og_image = og_image, corrections = HTML(corrections_html),
+  dashboard_note = HTML(if (nzchar(url_dashboard)) paste0(" For another view of how enrollment has changed over time, the district publishes ", dash_a(),
+    " (Power BI, opens in a new tab). It cannot be downloaded or linked school by school, so no figure on this page is taken from it.") else ""),
+  dashboard_source = HTML(if (nzchar(url_dashboard)) sprintf("<li>PSD, <a href=\"%s\">%s</a> (Power BI, published to the web). A further reference for enrollment change over time. The report offers no download, so no figure on this page is taken from it.</li>", url_dashboard, dashboard_title) else ""))
 
 out <- file.path(dir_out, "psd_closures_map.html")
 tmp_dir <- tempfile("mappage"); dir.create(tmp_dir)

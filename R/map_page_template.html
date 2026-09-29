@@ -97,7 +97,7 @@
 <main>
   <div class="prose">
     <h1>Poudre School District's closure recommendation, on the map</h1>
-    <div class="meta">Last updated {{ updated }}. An independent look using public data. Not produced by or affiliated with Poudre School District.</div>
+    <div class="meta">Last updated {{ updated }}. An independent look using public data. Not produced by or affiliated with Poudre School District. This is a personal project, pursued in my own time, and I currently have a child enrolled in PSD.</div>
     <p class="lede">On September 25, 2026, PSD's Comprehensive Planning Committee recommended closing nine schools and consolidating two, starting in the 2027-28 school year. The Board of Education will hear the recommendation on October 13 and vote on October 27 (<a href="https://www.psdschools.org/community/district-news-details/~board/poudre-school-district-news/post/psd-comprehensive-planning-committee-recommendation-released">district announcement</a>).</p>
     <p>These maps are my attempt to see what the recommendation looks like on the ground. They are not an argument for or against it. The committee worked on this for seventeen months, according to the announcement, and its <a href="https://www.psdschools.org/fs/resource-manager/view/9c94a1cd-0de3-49b9-9ebb-f3f2128ec379">executive summary</a> weighs things a map cannot show, such as programming at small schools, staffing, safety, and building condition. Where the district gives a reason, the maps quote it directly and cite the page.</p>
   </div>
@@ -173,7 +173,7 @@
 
   <div class="prose">
     <h3>Schools recommended to close or consolidate</h3>
-    <p>Reasons, deferred maintenance, and page numbers come from the executive summary. Enrollment is PSD's 2024-25 count. Use of working capacity divides that enrollment by the district's working capacity (my calculation).</p>
+    <p>Reasons, deferred maintenance, and page numbers come from the executive summary. Enrollment is PSD's 2024-25 count. Use of working capacity divides that enrollment by the district's working capacity (my calculation).{{ dashboard_note }}</p>
   </div>
   <div class="tablewrap">{{ table_closing }}</div>
 
@@ -202,6 +202,7 @@
       <li>PSD, <a href="https://www.psdschools.org/fs/resource-manager/view/9c94a1cd-0de3-49b9-9ebb-f3f2128ec379">Comprehensive Planning Committee executive summary</a> (September 25, 2026). Quoted reasons, deferred maintenance, and savings estimates, cited by page in each pop-up.</li>
       <li>PSD, <a href="https://www.psdschools.org/fs/resource-manager/view/a62d419e-f10a-420d-a695-bd52a678df80">Comprehensive Planning by the Numbers</a> slides (September 2026). Open-seat count and method, and capacity definitions (p. 20).</li>
       <li>PSD, <a href="https://www.psdschools.org/community/district-news-details/~board/poudre-school-district-news/post/psd-comprehensive-planning-committee-recommendation-released">recommendation announcement</a> (September 25, 2026). Closing and receiving schools, the Harris cohort, the seventeen-month timeline, and the meeting schedule.</li>
+      {{ dashboard_source }}
       <li>PSD public ArcGIS services: <a href="https://services.arcgis.com/VBzywyYzcLrfMMGa/arcgis/rest/services/">Boundaries2022, Schools_PSD, and PSD_Boundary</a>. Attendance zones (edited June and July 2026), school locations and types, enrollment from 2005-06 to 2024-25, capacity percentages, and the district outline.</li>
       <li>U.S. Census Bureau, <a href="https://www.census.gov/programs-surveys/decennial-census.html">decennial census</a>: 2000 and 2010 Summary File 1 and the 2020 redistricting data (P.L. 94-171), block-level counts of total and 18-and-over population for Larimer County, retrieved through the Census Bureau API. Under-18 is total minus 18 and over. Area-weighted into each zone by me.</li>
       <li>National Center for Education Statistics, <a href="https://nces.ed.gov/ccd/">Common Core of Data</a>: 2000-01 and 2010-11 school enrollment, preschool and grade-6 counts, retrieved through the <a href="https://educationdata.urban.org/">Urban Institute Education Data Portal</a>.</li>
