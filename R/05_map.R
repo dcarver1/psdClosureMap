@@ -46,15 +46,19 @@ enr00 <- as_tibble(ccd00) %>% select(ncessch, school_name, enrollment, lo = lowe
 # ---- publishing settings (edit before hosting) ------------------------------------------
 # site_url: the page's final public address, e.g. "https://example.com/psd-maps/". Link previews on
 #   Facebook and LinkedIn need absolute URLs, so fill this in before sharing.
-# corrections_url: optional form or issue tracker for corrections. Left blank, the footer asks readers to comment
-#   where they found the page (the social posts), plus the repository's GitHub issues page once repo_url is set.
+# corrections_url: optional form or issue tracker for corrections, listed first in the footer (a Google Form needs no
+#   account), followed by the repository's GitHub issues page once repo_url is set. Left blank, the footer asks readers
+#   to comment where they found the page (the social posts) instead.
 site_url        <- "https://psd.carverd.com/"
-corrections_url <- ""
+corrections_url <- "https://docs.google.com/forms/d/e/1FAIpQLSeunRUQFphpf4dvnwrdKYMJJzp_FcK3cJvQexjPYMjW-_vDuQ/viewform"
 # repo_url: the public GitHub repository, linked in the footer as the home of the code and data ("" to omit).
 repo_url        <- "https://github.com/dcarver1/psdClosureMap"
 og_image <- paste0(site_url, "psd_closures_preview.png")
-corrections_html <- if (nzchar(corrections_url)) {
-  sprintf(" Spot an error? <a href='%s'>Send a correction</a>.", corrections_url)
+corrections_html <- if (nzchar(corrections_url) && nzchar(repo_url)) {
+  sprintf(" Spot an error? <a href='%s'>Send a correction</a> (no account needed), or open an issue on the <a href='%s/issues'>GitHub issues page</a>.",
+          corrections_url, sub("/$", "", repo_url))
+} else if (nzchar(corrections_url)) {
+  sprintf(" Spot an error? <a href='%s'>Send a correction</a> (no account needed).", corrections_url)
 } else if (nzchar(repo_url)) {
   sprintf(" Corrections are welcome: comment where you found this page, or open an issue on the <a href='%s/issues'>GitHub issues page</a>.",
           sub("/$", "", repo_url))
