@@ -48,7 +48,7 @@ enr00 <- as_tibble(ccd00) %>% select(ncessch, school_name, enrollment, lo = lowe
 #   Facebook and LinkedIn need absolute URLs, so fill this in before sharing.
 # corrections_url: optional form or issue tracker for corrections. Left blank, the footer asks readers to comment
 #   where they found the page (the social posts), plus the repository's GitHub issues page once repo_url is set.
-site_url        <- ""
+site_url        <- "https://psd.carverd.com/"
 corrections_url <- ""
 # repo_url: the public GitHub repository, linked in the footer as the home of the code and data ("" to omit).
 repo_url        <- "https://github.com/dcarver1/psdClosureMap"
@@ -144,7 +144,7 @@ popup_school <- function(nm) {
   if (nrow(r) == 0) return(nm)
   cap_src <- if (isTRUE(r$capacity_source == "cpc_exec_summary")) "from the executive summary"
              else if (isTRUE(str_starts(r$capacity_source, "derived"))) "derived from PSD's boundary map layer"
-             else "estimated from the older capacity field in PSD's school layer" 
+             else "estimated from the older capacity field in PSD's school layer"
   cap_line <- if (!is.na(r$nsc_cap)) sprintf("<div>Working capacity: %s students (%s). Use in 2024-25: %s.</div>", fmt(r$nsc_cap), cap_src, pct(r$util_nsc)) else ""
   head <- sprintf("<div class='pp'><h4>%s</h4><div class='sub'>%s &middot; grades %s</div>", nm, lab_level[lvl_of(r$school_type)], r$grades)
   body <- switch(r$status,
